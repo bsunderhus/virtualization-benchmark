@@ -1,0 +1,34 @@
+body {
+  margin: 0;
+}
+
+.header {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 20px;
+}
+.content {
+  height: 100vh;
+  overflow: auto;
+}
+
+.content-visibility-content {
+  contain: strict;
+  height: 100vh;
+  overflow: auto;
+}
+
+.placeholder {
+  line-height: 32px;
+}
+
+.content-visibility-item {
+  height: 32px;
+  content-visibility: auto;
+  contain-intrinsic-size: 0 32px;
+}
+
+.DefaultContainer.DefaultContainer {
+  height: 100vh;
+}

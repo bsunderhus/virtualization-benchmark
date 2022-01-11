@@ -1,0 +1,9 @@
+{
+  "AFVirtualScroll": "af-virtual-scroll",
+  "ContentVisibility": "content-visibility",
+  "Native": "native",
+  "ReactRecycledScrolling": "react-recycled-scrolling",
+  "ReactVirtual": "react-virtual",
+  "ReactWindow": "react-window",
+  "RecyclerListView": "recyclerlistview"
+}

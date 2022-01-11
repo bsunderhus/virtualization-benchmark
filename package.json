@@ -1,0 +1,36 @@
+{
+  "name": "virtualization-benchmark",
+  "private": true,
+  "version": "0.0.0",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "benchmark": "node --experimental-specifier-resolution=node --loader ts-node/esm scripts/benchmark.ts"
+  },
+  "type": "module",
+  "dependencies": {
+    "@fluentui/react-components": "^9.0.0-beta.5",
+    "af-virtual-scroll": "^2.9.17",
+    "playwright": "^1.17.1",
+    "puppeteer": "^13.0.1",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
+    "react-recycled-scrolling": "^1.0.8",
+    "react-router-dom": "6",
+    "react-virtual": "^2.10.0",
+    "react-window": "^1.8.6",
+    "recyclerlistview": "^3.0.5",
+    "serve-handler": "^6.1.3"
+  },
+  "devDependencies": {
+    "@types/react": "^17.0.33",
+    "@types/react-dom": "^17.0.10",
+    "@types/react-window": "^1.8.5",
+    "@types/serve-handler": "^6.1.1",
+    "@vitejs/plugin-react": "^1.0.7",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4",
+    "vite": "^2.7.2"
+  }
+}
