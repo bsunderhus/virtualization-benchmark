@@ -1,6 +1,6 @@
 # Virtualization benchmark
 
-Deployed to https://unruffled-wescoff-ba53e2.netlify.app/?./index.js
+Deployed to https://virtualization-benchmark.netlify.app
 
 Based on mui virtualization benchmark:
 
