@@ -1,10 +1,11 @@
 import React from "react";
 import { useVirtual } from "react-virtual";
 import { Row, ROW_HEIGHT } from "../components/Row";
-import { indexArray } from "../utils/configuration";
+import { useArray } from "../utils/useArray";
 
 export const ReactVirtual = React.memo(() => {
   const parentRef = React.useRef<HTMLDivElement>(null);
+  const indexArray = useArray();
 
   const rowVirtualizer = useVirtual({
     size: indexArray.length,

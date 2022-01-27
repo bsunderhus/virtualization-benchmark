@@ -1,13 +1,14 @@
 import React from "react";
 import RecycledList from "react-recycled-scrolling";
 import { Row, ROW_HEIGHT } from "../components/Row";
-import { indexArray } from "../utils/configuration";
+import { useArray } from "../utils/useArray";
 
 function SheepRow(no: number) {
   return <Row index={no} />;
 }
 
 export const ReactRecycledScrolling = React.memo(() => {
+  const indexArray = useArray();
   return (
     <main>
       <RecycledList

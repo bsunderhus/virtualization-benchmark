@@ -1,8 +1,9 @@
 import React from "react";
 import { Row } from "../components/Row";
-import { indexArray } from "../utils/configuration";
+import { useArray } from "../utils/useArray";
 
 export const ContentVisibility = React.memo(() => {
+  const indexArray = useArray();
   return (
     <main className="content-visibility-content">
       {indexArray.map((index) => (

@@ -11,7 +11,7 @@
   "type": "module",
   "dependencies": {
     "@fluentui/react-components": "^9.0.0-beta.5",
-    "af-virtual-scroll": "^2.9.17",
+    "af-virtual-scroll": "^2.9.20",
     "playwright": "^1.17.1",
     "puppeteer": "^13.0.1",
     "react": "^17.0.2",

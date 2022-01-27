@@ -21,6 +21,8 @@ body {
 
 .placeholder {
   line-height: 32px;
+  height: 32px;
+  background-color: grey;
 }
 
 .content-visibility-item {

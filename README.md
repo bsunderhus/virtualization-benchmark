@@ -13,14 +13,15 @@ Based on mui virtualization benchmark:
 - react-virtual
 - [https://engineering.monday.com/building-our-recycle-list-solution-in-react/](RecyclerListView)
 - native (without virtualization)
+- content-visibility (without virtualization)
 - [https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility](content-visibility)
-- af-virtual-scroll
+- (af-virtual-scroll)[https://github.com/nowaalex/af-virtual-scroll]
 
 ## Running benchmark or site
 
 - `yarn`
-- `yarn browser` - runs benchmark
-- `yarn start` - starts server, use http://localhost:8080/?./index.js
+- `yarn benchmark` - runs benchmark
+- `yarn dev` - starts server, use http://localhost:3000
 
 ## Results
 

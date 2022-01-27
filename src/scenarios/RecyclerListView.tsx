@@ -5,7 +5,7 @@ import {
   LayoutProvider,
 } from "recyclerlistview/web";
 import { Row, ROW_HEIGHT } from "../components/Row";
-import { indexArray } from "../utils/configuration";
+import { useArray } from "../utils/useArray";
 
 const layoutProvider = new LayoutProvider(
   () => 0,
@@ -22,6 +22,7 @@ function rowRenderer(_: any, data: number) {
 }
 
 export const RecyclerListView = React.memo(() => {
+  const indexArray = useArray();
   return (
     <main>
       <RecyclerListViewWeb

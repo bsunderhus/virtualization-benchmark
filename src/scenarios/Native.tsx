@@ -1,8 +1,9 @@
 import React from "react";
 import { Row } from "../components/Row";
-import { indexArray } from "../utils/configuration";
+import { useArray } from "../utils/useArray";
 
 export const Native = React.memo(() => {
+  const indexArray = useArray();
   return (
     <main className="content">
       {indexArray.map((_, index) => (

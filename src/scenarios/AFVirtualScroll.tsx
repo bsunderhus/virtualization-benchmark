@@ -1,20 +1,20 @@
+import { VerticalList, useVirtual } from "af-virtual-scroll";
 import React from "react";
-import { List } from "af-virtual-scroll";
-import "af-virtual-scroll/lib/style.css";
-import { indexArray } from "../utils/configuration";
 import { Row, ROW_HEIGHT } from "../components/Row";
+import { useArray } from "../utils/useArray";
 
-const renderRow = (i: number) => <Row key={i} index={i} />;
+const renderRow = (index: number) => <Row key={index} index={index} />;
 
-export const AFVirtualScroll = React.memo(() => (
-  <List
-    fixed
-    className="content"
-    itemCount={indexArray.length}
-    estimatedItemSize={ROW_HEIGHT}
-  >
-    {renderRow}
-  </List>
-));
+export const AFVirtualScroll = React.memo(() => {
+  const indexArray = useArray();
+  const model = useVirtual({
+    itemCount: indexArray.length,
+    fixed: true,
+    estimatedItemSize: ROW_HEIGHT,
+    // overscanCount: 5
+  });
+
+  return <VerticalList model={model}>{renderRow}</VerticalList>;
+});
 
 AFVirtualScroll.displayName = "AFVirtualScroll";

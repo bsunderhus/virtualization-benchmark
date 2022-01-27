@@ -7,31 +7,32 @@ export enum Mode {
 }
 
 export interface Configuration {
+  itemCount: number;
   mode: Mode;
-  setMode: React.Dispatch<React.SetStateAction<Mode>>;
 }
 
-export const indexArray = new Array(1000).fill(undefined).map((_, i) => i);
-
-const configurationContext = React.createContext<Configuration | undefined>(
-  undefined
-);
+const configurationContext = React.createContext<
+  | [Configuration, React.Dispatch<React.SetStateAction<Configuration>>]
+  | undefined
+>(undefined);
 
 export interface ConfigurationProviderProps {
   defaultMode?: Mode;
+  defaultItemCount?: number;
   children?: React.ReactNode;
 }
 
 export const ConfigurationProvider = React.memo<ConfigurationProviderProps>(
-  ({ children, defaultMode = Mode.FULL }) => {
-    const [mode, setMode] = React.useState(defaultMode);
-    window.__setMode = setMode;
-    const configuration = React.useMemo<Configuration>(
-      () => ({ mode, setMode }),
-      [mode]
-    );
+  ({ children, defaultMode = Mode.FULL, defaultItemCount = 1000 }) => {
+    const context = React.useState<Configuration>({
+      mode: defaultMode,
+      itemCount: defaultItemCount,
+    });
+    const [, setContext] = context;
+
+    window.__setMode = (mode) => setContext((curr) => ({ ...curr, mode }));
     return (
-      <configurationContext.Provider value={configuration}>
+      <configurationContext.Provider value={context}>
         {children}
       </configurationContext.Provider>
     );
