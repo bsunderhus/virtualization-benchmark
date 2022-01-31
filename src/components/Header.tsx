@@ -33,9 +33,7 @@ export const Header = React.memo(() => {
         <ul className="header_nav-list">
           {scenarios.map((scenario, index) => (
             <li key={index}>
-              <Link to={scenario.path ?? "/"}>
-                {scenario.component.displayName}
-              </Link>
+              <Link to={scenario.path ?? "/"}>{scenario.name}</Link>
             </li>
           ))}
         </ul>

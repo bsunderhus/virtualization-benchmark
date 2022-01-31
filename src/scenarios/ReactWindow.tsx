@@ -23,3 +23,5 @@ export const ReactWindow = React.memo(() => {
 });
 
 ReactWindow.displayName = "ReactWindow";
+
+export default ReactWindow;

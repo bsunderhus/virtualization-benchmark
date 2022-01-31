@@ -36,3 +36,5 @@ export const RecyclerListView = React.memo(() => {
 });
 
 RecyclerListView.displayName = "RecyclerListView";
+
+export default RecyclerListView;

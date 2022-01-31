@@ -1,0 +1,43 @@
+[
+  {
+    "src": "./Native.tsx",
+    "name": "Native (no virtualization)",
+    "path": "native"
+  },
+  {
+    "src": "./ContentVisibility.tsx",
+    "name": "content-visibility (no virtualization)",
+    "path": "content-visibility",
+    "external": "https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility"
+  },
+  {
+    "src": "./AFVirtualScroll.tsx",
+    "name": "af-virtual-scroll",
+    "path": "af-virtual-scroll",
+    "external": "https://github.com/nowaalex/af-virtual-scroll"
+  },
+  {
+    "src": "./ReactRecycledScrolling.tsx",
+    "name": "react-recycled-scrolling",
+    "path": "react-recycled-scrolling",
+    "external": "https://github.com/sarons/react-recycled-scrolling"
+  },
+  {
+    "src": "./ReactVirtual.tsx",
+    "name": "react-virtual",
+    "path": "react-virtual",
+    "external": "https://github.com/tannerlinsley/react-virtual"
+  },
+  {
+    "src": "./ReactWindow.tsx",
+    "name": "react-window",
+    "path": "react-window",
+    "external": "https://github.com/bvaughn/react-window"
+  },
+  {
+    "src": "./RecyclerListView.tsx",
+    "name": "recylerlistview",
+    "path": "recylerlistview",
+    "external": "https://github.com/Flipkart/recyclerlistview"
+  }
+]

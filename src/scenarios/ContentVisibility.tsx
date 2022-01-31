@@ -14,3 +14,5 @@ export const ContentVisibility = React.memo(() => {
 });
 
 ContentVisibility.displayName = "ContentVisibility";
+
+export default ContentVisibility;

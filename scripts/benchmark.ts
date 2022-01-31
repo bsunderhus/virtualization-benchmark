@@ -2,7 +2,7 @@
 
 import { preview } from "vite";
 import puppeteer from "puppeteer";
-import paths from "../src/scenarios/paths.json";
+import scenarios from "../src/scenarios/scenarios.json";
 import { runFPSMeasure, simulateScroll } from "../src/benchmark";
 import { printSamplesMeasure } from "../src/benchmark/sample";
 import { Mode } from "../src/utils/configuration";
@@ -19,12 +19,12 @@ export async function runPuppeteerBenchmark() {
     devtools: true,
   });
 
-  for (const [name, path] of Object.entries(paths)) {
-    console.log(`${name}:`);
+  for (const scenario of scenarios) {
+    console.log(`${scenario.name} ${scenario.external}:`);
     const samples = await runFPSMeasure({
       browser,
       mode: Mode.FULL,
-      url: `http://localhost:${PORT}/${path}`,
+      url: `http://localhost:${PORT}/${scenario.path}`,
       setupTest: async (page: puppeteer.Page) => {
         await page.mouse.move(200, 200);
         await simulateScroll(page, { duration: 5000, deltaY: 300 });

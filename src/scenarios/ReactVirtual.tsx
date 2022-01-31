@@ -50,3 +50,5 @@ export const ReactVirtual = React.memo(() => {
 });
 
 ReactVirtual.displayName = "ReactVirtual";
+
+export default ReactVirtual;

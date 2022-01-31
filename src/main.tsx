@@ -20,7 +20,6 @@ ReactDOM.render(
               <Route
                 key={scenario.path}
                 path={scenario.path}
-                index={scenario.index}
                 element={<scenario.component />}
               />
             ))}

@@ -5,6 +5,7 @@ import { delay } from "../utils/delay";
 import { calculateMean, calculateMedian } from "./math";
 import { Sample } from "./sample";
 import { Mode } from "../utils/configuration";
+import { startProcessMetrics } from "../utils/processMetrics";
 
 const PROCESS_NAME = "type=renderer";
 
@@ -76,6 +77,10 @@ export async function runFPSMeasure({
     await devtoolsProtocolClient.send("Overlay.setShowFPSCounter", {
       show: true,
     });
+    const getProcessMetrics = await startProcessMetrics(
+      devtoolsProtocolClient,
+      300
+    );
     page.evaluate(() => {
       window.__fps = [];
       window.__renders = 0;
@@ -104,9 +109,11 @@ export async function runFPSMeasure({
     const { pid, memory, cpu } = await processMemory(processes, PROCESS_NAME);
     processes[pid] = true;
     const metrics = await page.metrics();
+    const processMetrics = await getProcessMetrics();
     await page.close();
 
     samples.push({
+      process: processMetrics,
       min: Math.min(...fps!),
       max: Math.max(...fps!),
       median: calculateMedian(fps!),

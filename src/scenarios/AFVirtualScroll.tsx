@@ -18,3 +18,5 @@ export const AFVirtualScroll = React.memo(() => {
 });
 
 AFVirtualScroll.displayName = "AFVirtualScroll";
+
+export default AFVirtualScroll;

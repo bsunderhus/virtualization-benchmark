@@ -14,3 +14,5 @@ export const Native = React.memo(() => {
 });
 
 Native.displayName = "Native";
+
+export default Native;

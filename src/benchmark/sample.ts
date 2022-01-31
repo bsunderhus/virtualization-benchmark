@@ -1,3 +1,4 @@
+import { CPUStats } from "../utils/processMetrics";
 import { calculateMean, calculateStandardDeviation } from "./math";
 
 export interface Sample {
@@ -15,6 +16,7 @@ export interface Sample {
   layoutDuration: number;
   recalcStyleCount: number;
   recalcStyleDuration: number;
+  process: CPUStats;
 }
 
 const formatter = new Intl.NumberFormat("en");
@@ -30,23 +32,6 @@ export function printSamplesMeasure(samples: Sample[]): void {
   const renderss = samples.map((result) => result.renders);
   const durations = samples.map((result) => result.duration);
 
-  const min = calculateMean(mins);
-  const minStd = calculateStandardDeviation(mins);
-  const max = calculateMean(maxs);
-  const maxStd = calculateStandardDeviation(maxs);
-  const median = calculateMean(medians);
-  const medianStd = calculateStandardDeviation(medians);
-  const mean = calculateMean(means);
-  const meanStd = calculateStandardDeviation(means);
-  const memory = calculateMean(memories);
-  const memoryStd = calculateStandardDeviation(memories);
-  const cpu = calculateMean(cpus);
-  const cpuStd = calculateStandardDeviation(cpus);
-  const renders = calculateMean(renderss);
-  const rendersStd = calculateStandardDeviation(renderss);
-  const duration = calculateMean(durations);
-  const durationStd = calculateStandardDeviation(durations);
-
   const framesArray = samples.map((result) => result.frames);
   const nodesArray = samples.map((result) => result.nodes);
   const layoutCountArray = samples.map((result) => result.layoutCount);
@@ -57,6 +42,28 @@ export function printSamplesMeasure(samples: Sample[]): void {
   const recalcStyleDurationArray = samples.map(
     (result) => result.recalcStyleDuration
   );
+
+  const processes = samples.map((result) => result.process.average);
+
+  const min = calculateMean(mins);
+  const minSTD = calculateStandardDeviation(mins);
+  const max = calculateMean(maxs);
+  const maxSTD = calculateStandardDeviation(maxs);
+  const median = calculateMean(medians);
+  const medianSTD = calculateStandardDeviation(medians);
+  const mean = calculateMean(means);
+  const meanSTD = calculateStandardDeviation(means);
+  const memory = calculateMean(memories);
+  const memorySTD = calculateStandardDeviation(memories);
+  const cpu = calculateMean(cpus);
+  const cpuSTD = calculateStandardDeviation(cpus);
+  const renders = calculateMean(renderss);
+  const rendersSTD = calculateStandardDeviation(renderss);
+  const duration = calculateMean(durations);
+  const durationSTD = calculateStandardDeviation(durations);
+
+  const process = calculateMean(processes);
+  const processSTD = calculateStandardDeviation(processes);
 
   const framesMean = calculateMean(framesArray);
   const framesSTD = calculateStandardDeviation(framesArray);
@@ -74,14 +81,15 @@ export function printSamplesMeasure(samples: Sample[]): void {
   );
 
   console.log(`
-    Min: ${format(min)} fps (σ = ${format(minStd)})
-    Max: ${format(max)} fps (σ = ${format(maxStd)})
-    Median: ${format(median)} fps (σ = ${format(medianStd)})
-    Mean: ${format(mean)} fps (σ = ${format(meanStd)})
-    renders: ${format(renders)} (σ = ${format(rendersStd)})
-    duration: ${format(duration)} (σ = ${format(durationStd)})
-    Memory: ${format(memory)} (σ = ${format(memoryStd)})
-    CPU: ${format(cpu)} (σ = ${format(cpuStd)})
+    Min: ${format(min)} fps (σ = ${format(minSTD)})
+    Max: ${format(max)} fps (σ = ${format(maxSTD)})
+    Median: ${format(median)} fps (σ = ${format(medianSTD)})
+    Mean: ${format(mean)} fps (σ = ${format(meanSTD)})
+    renders: ${format(renders)} (σ = ${format(rendersSTD)})
+    duration: ${format(duration)} (σ = ${format(durationSTD)})
+    Memory: ${format(memory)} (σ = ${format(memorySTD)})
+    CPU: ${format(cpu)} (σ = ${format(cpuSTD)})
+    CPU percentage usage: ${format(process)} (σ = ${format(processSTD)})
     Frames: ${format(framesMean)} (σ = ${format(framesSTD)})
     Nodes: ${format(nodesMean)} (σ = ${format(nodesSTD)})
     LayoutCount: ${format(layoutCountMean)} (σ = ${format(layoutCountSTD)})

@@ -21,3 +21,5 @@ export const ReactRecycledScrolling = React.memo(() => {
 });
 
 ReactRecycledScrolling.displayName = "ReactRecycledScrolling";
+
+export default ReactRecycledScrolling;
