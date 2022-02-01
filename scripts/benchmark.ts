@@ -2,7 +2,7 @@
 
 import { preview } from "vite";
 import puppeteer from "puppeteer";
-import scenarios from "../src/scenarios/scenarios.json";
+import scenarios from "../scenarios.json";
 import { runFPSMeasure, simulateScroll } from "../src/benchmark";
 import { printSamplesMeasure } from "../src/benchmark/sample";
 import { Mode } from "../src/utils/configuration";

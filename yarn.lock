@@ -646,6 +646,18 @@
   dependencies:
     "@types/node" "*"
 
+"@virtuoso.dev/react-urx@^0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@virtuoso.dev/react-urx/-/react-urx-0.2.12.tgz#6c75cdbea2503c129b34d1ce2ee8cd649503b47c"
+  integrity sha512-Lcrrmq/UztM+rgepAdThdIk8dL3LEi9o2NTkL6ZLKPrTGjr5tSmsauD30/O8yu7Q0ncDnptmMR3OObdvMGuEKQ==
+  dependencies:
+    "@virtuoso.dev/urx" "^0.2.12"
+
+"@virtuoso.dev/urx@^0.2.12":
+  version "0.2.12"
+  resolved "https://registry.yarnpkg.com/@virtuoso.dev/urx/-/urx-0.2.12.tgz#fa9bd1a2777cf70b19d4c9836b8d92b04f079c64"
+  integrity sha512-Q9nlRqYb5Uq4Ynu8cWPSJ7LxpuZsI+MZ09IJlDAAgwuNgfWRArpVRP0VN0coYgUo2fKMjhmV69MTqaUbIBhu/g==
+
 "@vitejs/plugin-react@^1.0.7":
   version "1.1.4"
   resolved "https://registry.yarnpkg.com/@vitejs/plugin-react/-/plugin-react-1.1.4.tgz#a3f3f49d11890bf73bc64d545ce8fe7f5d506e85"
@@ -1533,6 +1545,14 @@ react-virtual@^2.10.0:
   integrity sha512-Mgy//1Ty0YMcELTooFq5mMrEb4dLRzS9PbPrgDbpdgGRgG9RuQrXBxgPCm1vNBonoiNZjbsGSEPLuJ7MuHLvLg==
   dependencies:
     "@reach/observe-rect" "^1.1.0"
+
+react-virtuoso@^2.5.1:
+  version "2.5.1"
+  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-2.5.1.tgz#73d562ea1760eed6c39b6357873040beac37057a"
+  integrity sha512-qHNuUEeSoORN6mQq1nLtGfE82ctMCRg+WOdLCrF8loXNl0VCAV2zj5jxXVPWuUJWbkmjgKugBu3wNyFM6dy2NA==
+  dependencies:
+    "@virtuoso.dev/react-urx" "^0.2.12"
+    "@virtuoso.dev/urx" "^0.2.12"
 
 react-window@^1.8.6:
   version "1.8.6"

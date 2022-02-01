@@ -1,7 +1,7 @@
 import React, { ChangeEvent } from "react";
 import { Link } from "./Link";
 import { Mode, useConfiguration } from "../utils/configuration";
-import { scenarios } from "../scenarios";
+import { scenarios } from "../utils/scenarios";
 
 export const Header = React.memo(() => {
   const [configuration, setConfiguration] = useConfiguration();
