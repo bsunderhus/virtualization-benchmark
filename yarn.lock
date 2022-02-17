@@ -566,6 +566,11 @@
   resolved "https://registry.yarnpkg.com/@reach/observe-rect/-/observe-rect-1.2.0.tgz#d7a6013b8aafcc64c778a0ccb83355a11204d3b2"
   integrity sha512-Ba7HmkFgfQxZqqaeIWWkNK0rEhpxVQHIoVyW1YDSkGsGIXzcaW4deC8B0pZrNSSyLTdIk7y+5olKt5+g0GmFIQ==
 
+"@resembli/react-virtualized-window@^0.5.0":
+  version "0.5.0"
+  resolved "https://registry.yarnpkg.com/@resembli/react-virtualized-window/-/react-virtualized-window-0.5.0.tgz#c773a80d949e7b4a37cbf459f3e094e3c195a868"
+  integrity sha512-OtL2YKCXf4nWlyJWheYm7BQTLZzprtIqnl29K0LF7qDlCAPrEOwp9CfKpN0b4hyuFsASzwOzPADpLeH+piyqSQ==
+
 "@rollup/pluginutils@^4.1.2":
   version "4.1.2"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-4.1.2.tgz#ed5821c15e5e05e32816f5fb9ec607cdf5a75751"
@@ -593,6 +598,19 @@
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/@tsconfig/node16/-/node16-1.0.2.tgz#423c77877d0569db20e1fc80885ac4118314010e"
   integrity sha512-eZxlbI8GZscaGS7kkc/trHTT5xgrjH3/1n2JDwusC9iahPKWMRvRjJSAN5mCXviuTGQ/lHnhvv8Q1YTpnfz9gA==
+
+"@types/glob@*":
+  version "7.2.0"
+  resolved "https://registry.yarnpkg.com/@types/glob/-/glob-7.2.0.tgz#bc1b5bf3aa92f25bd5dd39f35c57361bdce5b2eb"
+  integrity sha512-ZUxbzKl0IfJILTS6t7ip5fQQM/J3TJYubDm3nMbgubNNYS62eXeUpoLUC8/7fJNiFYHTrGPQn7hspDUzIHX3UA==
+  dependencies:
+    "@types/minimatch" "*"
+    "@types/node" "*"
+
+"@types/minimatch@*":
+  version "3.0.5"
+  resolved "https://registry.yarnpkg.com/@types/minimatch/-/minimatch-3.0.5.tgz#1001cc5e6a3704b83c236027e77f2f58ea010f40"
+  integrity sha512-Klz949h02Gz2uZCMGwDUSDS1YBlTdDDgbWHi+81l29tQALUtvz4rAYi5uoVhE5Lagoq6DeqAUlbrHvW/mXDgdQ==
 
 "@types/node@*":
   version "17.0.9"
@@ -627,6 +645,14 @@
     "@types/scheduler" "*"
     csstype "^3.0.2"
 
+"@types/rimraf@^3.0.2":
+  version "3.0.2"
+  resolved "https://registry.yarnpkg.com/@types/rimraf/-/rimraf-3.0.2.tgz#a63d175b331748e5220ad48c901d7bbf1f44eef8"
+  integrity sha512-F3OznnSLAUxFrCEu/L5PY8+ny8DtcFRjx7fZZ9bycvXRi3KPTRS9HOitGZwvPg0juRhXFWIeKX58cnX5YqLohQ==
+  dependencies:
+    "@types/glob" "*"
+    "@types/node" "*"
+
 "@types/scheduler@*":
   version "0.16.2"
   resolved "https://registry.yarnpkg.com/@types/scheduler/-/scheduler-0.16.2.tgz#1a62f89525723dde24ba1b01b092bf5df8ad4d39"
@@ -645,18 +671,6 @@
   integrity sha512-8uALY5LTvSuHgloDVUvWP3pIauILm+8/0pDMokuDYIoNsOkSwd5AiHBTSEJjKTDcZr5z8UpgOWZkxBF4iJftoA==
   dependencies:
     "@types/node" "*"
-
-"@virtuoso.dev/react-urx@^0.2.12":
-  version "0.2.12"
-  resolved "https://registry.yarnpkg.com/@virtuoso.dev/react-urx/-/react-urx-0.2.12.tgz#6c75cdbea2503c129b34d1ce2ee8cd649503b47c"
-  integrity sha512-Lcrrmq/UztM+rgepAdThdIk8dL3LEi9o2NTkL6ZLKPrTGjr5tSmsauD30/O8yu7Q0ncDnptmMR3OObdvMGuEKQ==
-  dependencies:
-    "@virtuoso.dev/urx" "^0.2.12"
-
-"@virtuoso.dev/urx@^0.2.12":
-  version "0.2.12"
-  resolved "https://registry.yarnpkg.com/@virtuoso.dev/urx/-/urx-0.2.12.tgz#fa9bd1a2777cf70b19d4c9836b8d92b04f079c64"
-  integrity sha512-Q9nlRqYb5Uq4Ynu8cWPSJ7LxpuZsI+MZ09IJlDAAgwuNgfWRArpVRP0VN0coYgUo2fKMjhmV69MTqaUbIBhu/g==
 
 "@vitejs/plugin-react@^1.0.7":
   version "1.1.4"
@@ -1545,14 +1559,6 @@ react-virtual@^2.10.0:
   integrity sha512-Mgy//1Ty0YMcELTooFq5mMrEb4dLRzS9PbPrgDbpdgGRgG9RuQrXBxgPCm1vNBonoiNZjbsGSEPLuJ7MuHLvLg==
   dependencies:
     "@reach/observe-rect" "^1.1.0"
-
-react-virtuoso@^2.5.1:
-  version "2.5.1"
-  resolved "https://registry.yarnpkg.com/react-virtuoso/-/react-virtuoso-2.5.1.tgz#73d562ea1760eed6c39b6357873040beac37057a"
-  integrity sha512-qHNuUEeSoORN6mQq1nLtGfE82ctMCRg+WOdLCrF8loXNl0VCAV2zj5jxXVPWuUJWbkmjgKugBu3wNyFM6dy2NA==
-  dependencies:
-    "@virtuoso.dev/react-urx" "^0.2.12"
-    "@virtuoso.dev/urx" "^0.2.12"
 
 react-window@^1.8.6:
   version "1.8.6"

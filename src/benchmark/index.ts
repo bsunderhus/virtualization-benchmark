@@ -9,7 +9,7 @@ import { startProcessMetrics } from "../utils/processMetrics";
 
 const PROCESS_NAME = "type=renderer";
 
-export async function simulateScroll(
+export async function* scrollOverTime(
   page: puppeteer.Page,
   {
     duration = 0, // How long to scroll for [ms]
@@ -20,32 +20,26 @@ export async function simulateScroll(
   } = {}
 ) {
   const startTime = Date.now();
+  let now = Date.now();
   const cycles = easingCycle / interval;
   let i = 0;
 
-  return new Promise<void>((resolve) => {
-    const scroll = async () => {
-      if (Date.now() < startTime + duration) {
-        const fraction = cycles
-          ? (Math.sin((2 * i * Math.PI) / cycles - Math.PI / 2) + 1) / 2
-          : 1;
-        i += 1;
-        await Promise.race([
-          page.mouse.wheel({
-            deltaX: fraction * deltaX,
-            deltaY: fraction * deltaY,
-          }),
-          delay(interval),
-        ]);
-        scroll();
-      } else {
-        resolve();
-      }
-    };
-    scroll();
-  });
+  while (now < startTime + duration) {
+    const fraction = cycles
+      ? (Math.sin((2 * i * Math.PI) / cycles - Math.PI / 2) + 1) / 2
+      : 1;
+    i += 1;
+    await Promise.race([
+      page.mouse.wheel({
+        deltaX: fraction * deltaX,
+        deltaY: fraction * deltaY,
+      }),
+      delay(interval),
+    ]);
+    yield i;
+    now = Date.now();
+  }
 }
-
 export interface FPSMeasureOptions {
   browser: puppeteer.Browser;
   setupTest: (page: puppeteer.Page) => Promise<void>;
