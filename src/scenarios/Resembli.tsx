@@ -14,7 +14,7 @@ export const Resembli = React.memo(() => {
   const array = useArray();
   return (
     <div style={{ width: "100%", height: window.innerHeight }}>
-      <List defaultSize={ROW_HEIGHT} data={array}>
+      <List overscan={1} defaultSize={ROW_HEIGHT} data={array}>
         {renderer}
       </List>
     </div>

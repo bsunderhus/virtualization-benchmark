@@ -6,10 +6,14 @@ import { calculateMean, calculateMedian } from "./math";
 import { Sample } from "./sample";
 import { Mode } from "../utils/configuration";
 import { startProcessMetrics } from "../utils/processMetrics";
+import {
+  FrameObject,
+  PuppeteerScreenCastFrames,
+} from "../utils/PuppeteerScreenCastFrames";
 
 const PROCESS_NAME = "type=renderer";
 
-export async function* scrollOverTime(
+export async function scrollOverTime(
   page: puppeteer.Page,
   {
     duration = 0, // How long to scroll for [ms]
@@ -36,13 +40,13 @@ export async function* scrollOverTime(
       }),
       delay(interval),
     ]);
-    yield i;
     now = Date.now();
   }
 }
 export interface FPSMeasureOptions {
   browser: puppeteer.Browser;
   setupTest: (page: puppeteer.Page) => Promise<void>;
+  afterFrame?: (frameData: FrameObject) => Promise<void> | void;
   url: string;
   mode: Mode;
 }
@@ -52,25 +56,29 @@ export interface FPSMeasureOptions {
 export async function runFPSMeasure({
   browser,
   setupTest,
+  afterFrame,
   url,
   mode,
 }: FPSMeasureOptions) {
   const samples: Sample[] = [];
 
   const processes = await processMap(PROCESS_NAME);
-
+  const page = await browser.newPage();
+  const devtoolsProtocolClient = await page.target().createCDPSession();
+  await devtoolsProtocolClient.send("Overlay.setShowFPSCounter", {
+    show: true,
+  });
+  const puppeteerScreenCastFrames = new PuppeteerScreenCastFrames();
+  if (afterFrame) {
+    await puppeteerScreenCastFrames.init(devtoolsProtocolClient, afterFrame);
+  }
   for (let i = 0; i < 4; i += 1) {
-    const page = await browser.newPage();
     await page.goto(url);
     page.evaluate((mode) => {
       window.__setMode(mode);
     }, mode);
     await delay(1000);
 
-    const devtoolsProtocolClient = await page.target().createCDPSession();
-    await devtoolsProtocolClient.send("Overlay.setShowFPSCounter", {
-      show: true,
-    });
     const getProcessMetrics = await startProcessMetrics(
       devtoolsProtocolClient,
       300
@@ -91,9 +99,9 @@ export async function runFPSMeasure({
       window.requestAnimationFrame(loop);
     });
 
-    if (typeof setupTest === "function") {
-      await setupTest(page);
-    }
+    await puppeteerScreenCastFrames.start({ maxHeight: 600, maxWidth: 800 });
+    await setupTest(page);
+    await puppeteerScreenCastFrames.stop();
 
     const fps = await page.evaluate(() => window.__fps);
     const renders = await page.evaluate(() => window.__renders)!;
@@ -104,7 +112,6 @@ export async function runFPSMeasure({
     processes[pid] = true;
     const metrics = await page.metrics();
     const processMetrics = await getProcessMetrics();
-    await page.close();
 
     samples.push({
       process: processMetrics,
@@ -124,5 +131,6 @@ export async function runFPSMeasure({
       recalcStyleDuration: metrics.RecalcStyleDuration!,
     });
   }
+  await page.close();
   return samples;
 }

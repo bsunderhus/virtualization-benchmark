@@ -6,8 +6,10 @@ import scenarios from "../scenarios.json";
 import { runFPSMeasure, scrollOverTime } from "../src/benchmark";
 import { printSamplesMeasure } from "../src/benchmark/sample";
 import { Mode } from "../src/utils/configuration";
-import { mkdirIfNotExists } from "../src/utils/mkdirIfNotExists";
+import { FrameObject } from "../src/utils/PuppeteerMassScreenshot";
 import rimraf from "rimraf";
+import { mkdirIfNotExists } from "../src/utils/mkdirIfNotExists";
+import fs from "fs/promises";
 
 const PORT = 5000;
 
@@ -36,22 +38,29 @@ export async function runPuppeteerBenchmark() {
   for (const scenario of scenarios) {
     await mkdirIfNotExists(`./screenshots/${scenario.path}`);
     console.log(`${scenario.name} ${scenario.external ?? ""}:`);
+    const frames: FrameObject[] = [];
     const samples = await runFPSMeasure({
       browser,
       mode: Mode.FULL,
       url: `http://localhost:${PORT}/${scenario.path}`,
       setupTest: async (page: puppeteer.Page) => {
         await page.mouse.move(200, 200);
-        for await (const index of scrollOverTime(page, {
+        await scrollOverTime(page, {
           duration: 2000,
           deltaY: 500,
-        })) {
-          await page.screenshot({
-            path: `./screenshots/${scenario.path}/${index}.jpeg`,
-          });
-        }
+        });
+      },
+      afterFrame: (frame) => {
+        frames.push(frame);
       },
     });
+    for (const frame of frames) {
+      await fs.writeFile(
+        `./screenshots/${scenario.path}/${frame.metadata.timestamp}.png`,
+        frame.data,
+        "base64"
+      );
+    }
     printSamplesMeasure(samples);
   }
   await browser.close();
