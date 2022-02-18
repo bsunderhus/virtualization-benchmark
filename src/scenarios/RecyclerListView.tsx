@@ -9,7 +9,7 @@ import { useArray } from "../utils/useArray";
 
 const layoutProvider = new LayoutProvider(
   () => 0,
-  (type, dimensions) => {
+  (_, dimensions) => {
     dimensions.width = window.innerWidth;
     dimensions.height = ROW_HEIGHT;
   }
@@ -24,7 +24,7 @@ function rowRenderer(_: any, data: number) {
 export const RecyclerListView = React.memo(() => {
   const indexArray = useArray();
   return (
-    <main>
+    <main style={{ overflow: "hidden" }}>
       <RecyclerListViewWeb
         useWindowScroll={true}
         layoutProvider={layoutProvider}

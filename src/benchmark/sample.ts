@@ -1,11 +1,12 @@
 import { CPUStats } from "../utils/processMetrics";
-import { calculateMean, calculateStandardDeviation } from "./math";
+import {
+  calculateMean,
+  calculateMedian,
+  calculateStandardDeviation,
+} from "./math";
 
 export interface Sample {
-  min: number;
-  max: number;
-  median: number;
-  mean: number;
+  fps: number[];
   memory: number;
   cpu: number;
   renders: number;
@@ -17,90 +18,128 @@ export interface Sample {
   recalcStyleCount: number;
   recalcStyleDuration: number;
   process: CPUStats;
+  whitespaceAmount: number;
+}
+
+export interface SampleMetrics {
+  fps: {
+    min: Mean;
+    max: Mean;
+    median: Mean;
+    mean: Mean;
+  };
+  memory: Mean;
+  cpu: Mean;
+  renders: Mean;
+  duration: Mean;
+  frames: Mean;
+  nodes: Mean;
+  layoutCount: Mean;
+  layoutDuration: Mean;
+  recalcStyleCount: Mean;
+  recalcStyleDuration: Mean;
+  process: Mean;
+  whitespaceAmount: Mean;
+}
+
+export interface Mean {
+  mean: number;
+  standardDeviation: number;
 }
 
 const formatter = new Intl.NumberFormat("en");
 const format = formatter.format.bind(formatter);
 
-export function printSamplesMeasure(samples: Sample[]): void {
-  const mins = samples.map((result) => result.min);
-  const maxs = samples.map((result) => result.max);
-  const medians = samples.map((result) => result.median);
-  const means = samples.map((result) => result.mean);
-  const memories = samples.map((result) => result.memory);
-  const cpus = samples.map((result) => result.cpu);
-  const renderss = samples.map((result) => result.renders);
-  const durations = samples.map((result) => result.duration);
+export function valuesToMetrics(numbers: number[]) {
+  return {
+    mean: calculateMean(numbers),
+    standardDeviation: calculateStandardDeviation(numbers),
+  };
+}
 
-  const framesArray = samples.map((result) => result.frames);
-  const nodesArray = samples.map((result) => result.nodes);
-  const layoutCountArray = samples.map((result) => result.layoutCount);
-  const layoutDurationArray = samples.map((result) => result.layoutDuration);
-  const recalcStyleCountArray = samples.map(
-    (result) => result.recalcStyleCount
-  );
-  const recalcStyleDurationArray = samples.map(
-    (result) => result.recalcStyleDuration
-  );
+export function samplesToSampleMetrics(samples: Sample[]): SampleMetrics {
+  return {
+    fps: {
+      min: valuesToMetrics(samples.map((sample) => Math.min(...sample.fps))),
+      max: valuesToMetrics(samples.map((sample) => Math.max(...sample.fps))),
+      median: valuesToMetrics(
+        samples.map((sample) => calculateMedian(sample.fps))
+      ),
+      mean: valuesToMetrics(samples.map((sample) => calculateMean(sample.fps))),
+    },
+    memory: valuesToMetrics(samples.map((sample) => sample.memory)),
+    cpu: valuesToMetrics(samples.map((sample) => sample.cpu)),
+    renders: valuesToMetrics(samples.map((sample) => sample.renders)),
+    duration: valuesToMetrics(samples.map((sample) => sample.duration)),
+    whitespaceAmount: valuesToMetrics(
+      samples.map((sample) => sample.whitespaceAmount)
+    ),
 
-  const processes = samples.map((result) => result.process.average);
+    frames: valuesToMetrics(samples.map((sample) => sample.frames)),
+    nodes: valuesToMetrics(samples.map((sample) => sample.nodes)),
+    layoutCount: valuesToMetrics(samples.map((sample) => sample.layoutCount)),
+    layoutDuration: valuesToMetrics(
+      samples.map((sample) => sample.layoutDuration)
+    ),
+    recalcStyleCount: valuesToMetrics(
+      samples.map((sample) => sample.recalcStyleCount)
+    ),
+    recalcStyleDuration: valuesToMetrics(
+      samples.map((sample) => sample.recalcStyleDuration)
+    ),
 
-  const min = calculateMean(mins);
-  const minSTD = calculateStandardDeviation(mins);
-  const max = calculateMean(maxs);
-  const maxSTD = calculateStandardDeviation(maxs);
-  const median = calculateMean(medians);
-  const medianSTD = calculateStandardDeviation(medians);
-  const mean = calculateMean(means);
-  const meanSTD = calculateStandardDeviation(means);
-  const memory = calculateMean(memories);
-  const memorySTD = calculateStandardDeviation(memories);
-  const cpu = calculateMean(cpus);
-  const cpuSTD = calculateStandardDeviation(cpus);
-  const renders = calculateMean(renderss);
-  const rendersSTD = calculateStandardDeviation(renderss);
-  const duration = calculateMean(durations);
-  const durationSTD = calculateStandardDeviation(durations);
+    process: valuesToMetrics(samples.map((sample) => sample.process.average)),
+  };
+}
 
-  const process = calculateMean(processes);
-  const processSTD = calculateStandardDeviation(processes);
-
-  const framesMean = calculateMean(framesArray);
-  const framesSTD = calculateStandardDeviation(framesArray);
-  const nodesMean = calculateMean(nodesArray);
-  const nodesSTD = calculateStandardDeviation(nodesArray);
-  const layoutCountMean = calculateMean(layoutCountArray);
-  const layoutCountSTD = calculateStandardDeviation(layoutCountArray);
-  const layoutDurationMean = calculateMean(layoutDurationArray);
-  const layoutDurationSTD = calculateStandardDeviation(layoutDurationArray);
-  const recalcStyleCountMean = calculateMean(recalcStyleCountArray);
-  const recalcStyleCountSTD = calculateStandardDeviation(recalcStyleCountArray);
-  const recalcStyleDurationMean = calculateMean(recalcStyleDurationArray);
-  const recalcStyleDurationSTD = calculateStandardDeviation(
-    recalcStyleDurationArray
-  );
-
+export function printSampleMetrics({
+  fps,
+  cpu,
+  whitespaceAmount,
+  renders,
+  recalcStyleDuration,
+  recalcStyleCount,
+  process,
+  nodes,
+  memory,
+  layoutDuration,
+  layoutCount,
+  frames,
+  duration,
+}: SampleMetrics): void {
   console.log(`
-    Min: ${format(min)} fps (σ = ${format(minSTD)})
-    Max: ${format(max)} fps (σ = ${format(maxSTD)})
-    Median: ${format(median)} fps (σ = ${format(medianSTD)})
-    Mean: ${format(mean)} fps (σ = ${format(meanSTD)})
-    renders: ${format(renders)} (σ = ${format(rendersSTD)})
-    duration: ${format(duration)} (σ = ${format(durationSTD)})
-    Memory: ${format(memory)} (σ = ${format(memorySTD)})
-    CPU: ${format(cpu)} (σ = ${format(cpuSTD)})
-    CPU percentage usage: ${format(process)} (σ = ${format(processSTD)})
-    Frames: ${format(framesMean)} (σ = ${format(framesSTD)})
-    Nodes: ${format(nodesMean)} (σ = ${format(nodesSTD)})
-    LayoutCount: ${format(layoutCountMean)} (σ = ${format(layoutCountSTD)})
-    LayoutDuration: ${format(layoutDurationMean)} (σ = ${format(
-    layoutDurationSTD
+    FPS: 
+      Min: ${format(fps.min.mean)} (σ = ${format(fps.min.standardDeviation)})
+      Max: ${format(fps.max.mean)} (σ = ${format(fps.max.standardDeviation)})
+      Median: ${format(fps.median.mean)} (σ = ${format(
+    fps.median.standardDeviation
   )})
-    RecalcStyleCount: ${format(recalcStyleCountMean)} (σ = ${format(
-    recalcStyleCountSTD
+      Mean: ${format(fps.mean.mean)} (σ = ${format(fps.mean.standardDeviation)})
+    Renders: ${format(renders.mean)} (σ = ${format(renders.standardDeviation)})
+    Duration: ${format(duration.mean)} (σ = ${format(
+    duration.standardDeviation
   )})
-    RecalcStyleDuration: ${format(recalcStyleDurationMean)} (σ = ${format(
-    recalcStyleDurationSTD
+    Memory: ${format(memory.mean)} (σ = ${format(memory.standardDeviation)})
+    CPU: ${format(cpu.mean)} (σ = ${format(cpu.standardDeviation)})
+    CPU percentage usage: ${format(process.mean)} (σ = ${format(
+    process.standardDeviation
+  )})
+    Frames: ${format(frames.mean)} (σ = ${format(frames.standardDeviation)})
+    Nodes: ${format(nodes.mean)} (σ = ${format(nodes.standardDeviation)})
+    LayoutCount: ${format(layoutCount.mean)} (σ = ${format(
+    layoutCount.standardDeviation
+  )})
+    LayoutDuration: ${format(layoutDuration.mean)} (σ = ${format(
+    layoutDuration.standardDeviation
+  )})
+    RecalcStyleCount: ${format(recalcStyleCount.mean)} (σ = ${format(
+    recalcStyleCount.standardDeviation
+  )})
+    RecalcStyleDuration: ${format(recalcStyleDuration.mean)} (σ = ${format(
+    recalcStyleDuration.standardDeviation
+  )})
+    WhitespaceAmount: ${format(whitespaceAmount.mean)} (σ = ${format(
+    whitespaceAmount.standardDeviation
   )})
   `);
 }
