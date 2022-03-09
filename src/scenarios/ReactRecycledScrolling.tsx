@@ -1,3 +1,4 @@
+import { makeStaticStyles } from "@fluentui/react-components";
 import React from "react";
 import RecycledList from "react-recycled-scrolling";
 import { Row, ROW_HEIGHT } from "../components/Row";
@@ -7,7 +8,14 @@ function SheepRow(no: number) {
   return <Row index={no} />;
 }
 
+const useStaticStyles = makeStaticStyles({
+  ".DefaultContainer.DefaultContainer": {
+    height: "100vh",
+  },
+});
+
 export const ReactRecycledScrolling = React.memo(() => {
+  useStaticStyles();
   const indexArray = useArray();
   return (
     <main>

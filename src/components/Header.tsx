@@ -2,6 +2,16 @@ import React, { ChangeEvent } from "react";
 import { Link } from "./Link";
 import { Mode, useConfiguration } from "../utils/configuration";
 import { scenarios } from "../utils/scenarios";
+import { makeStyles } from "@fluentui/react-components";
+
+const useStyles = makeStyles({
+  header: {
+    display: "flex",
+    flexDirection: "column",
+    gap: "20px",
+    padding: "20px",
+  },
+});
 
 export const Header = React.memo(() => {
   const [configuration, setConfiguration] = useConfiguration();
@@ -27,10 +37,12 @@ export const Header = React.memo(() => {
     []
   );
 
+  const styles = useStyles();
+
   return (
-    <header className="header">
+    <header className={styles.header}>
       <nav>
-        <ul className="header_nav-list">
+        <ul>
           {scenarios.map((scenario, index) => (
             <li key={index}>
               <Link to={scenario.path ?? "/"}>{scenario.name}</Link>

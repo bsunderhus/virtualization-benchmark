@@ -3,6 +3,7 @@ import scenariosMetadata from "/scenarios.json";
 
 export interface ScenarioModule {
   component: React.NamedExoticComponent;
+  src: string;
   name: string;
   path: string;
 }

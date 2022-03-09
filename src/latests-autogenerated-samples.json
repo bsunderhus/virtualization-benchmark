@@ -1,0 +1,190 @@
+{
+  "native": [
+    {
+      "process": {
+        "average": 2.006630256852641,
+        "snapshots": [
+          {
+            "timestamp": 2474.251208,
+            "usage": 1
+          },
+          {
+            "timestamp": 2474.554164,
+            "usage": 1
+          }
+        ]
+      },
+      "fps": [
+        36.43916481458974
+      ],
+      "memory": 0,
+      "cpu": 0,
+      "renders": 0,
+      "duration": -301.10000000009313,
+      "frames": 2,
+      "layoutCount": 4,
+      "layoutDuration": 0.211244,
+      "nodes": 14069,
+      "recalcStyleCount": 2,
+      "recalcStyleDuration": 0.08802,
+      "whitespaceAmount": 708635
+    },
+    {
+      "process": {
+        "average": 2.0057833038247805,
+        "snapshots": [
+          {
+            "timestamp": 2477.682927,
+            "usage": 1
+          },
+          {
+            "timestamp": 2477.982169,
+            "usage": 1
+          }
+        ]
+      },
+      "fps": [],
+      "memory": 0,
+      "cpu": 0,
+      "renders": 0,
+      "duration": -174.29999999981374,
+      "frames": 1,
+      "layoutCount": 4,
+      "layoutDuration": 0.235715,
+      "nodes": 14034,
+      "recalcStyleCount": 2,
+      "recalcStyleDuration": 0.082831,
+      "whitespaceAmount": 708635
+    },
+    {
+      "process": {
+        "average": 2.007555047305523,
+        "snapshots": [
+          {
+            "timestamp": 2481.105841,
+            "usage": 1
+          },
+          {
+            "timestamp": 2481.407447,
+            "usage": 1
+          }
+        ]
+      },
+      "fps": [],
+      "memory": 0,
+      "cpu": 0,
+      "renders": 0,
+      "duration": -264.10000000009313,
+      "frames": 1,
+      "layoutCount": 3,
+      "layoutDuration": 0.380205,
+      "nodes": 14034,
+      "recalcStyleCount": 2,
+      "recalcStyleDuration": 0.073006,
+      "whitespaceAmount": 708635
+    },
+    {
+      "process": {
+        "average": 2.006162622928012,
+        "snapshots": [
+          {
+            "timestamp": 2484.450282,
+            "usage": 1
+          },
+          {
+            "timestamp": 2484.751129,
+            "usage": 1
+          }
+        ]
+      },
+      "fps": [
+        51.41916906573529
+      ],
+      "memory": 0,
+      "cpu": 0,
+      "renders": 0,
+      "duration": -307,
+      "frames": 1,
+      "layoutCount": 3,
+      "layoutDuration": 0.236945,
+      "nodes": 14034,
+      "recalcStyleCount": 2,
+      "recalcStyleDuration": 0.10258,
+      "whitespaceAmount": 708635
+    }
+  ],
+  "resembli": [
+    {
+      "process": {
+        "average": null,
+        "snapshots": []
+      },
+      "fps": [],
+      "memory": 0,
+      "cpu": 0,
+      "renders": 0,
+      "duration": -28.799999999813735,
+      "frames": 1,
+      "layoutCount": 8,
+      "layoutDuration": 0.030085,
+      "nodes": 375,
+      "recalcStyleCount": 6,
+      "recalcStyleDuration": 0.004954,
+      "whitespaceAmount": null
+    },
+    {
+      "process": {
+        "average": null,
+        "snapshots": []
+      },
+      "fps": [],
+      "memory": 0,
+      "cpu": 0,
+      "renders": 0,
+      "duration": -27.5,
+      "frames": 1,
+      "layoutCount": 8,
+      "layoutDuration": 0.033971,
+      "nodes": 375,
+      "recalcStyleCount": 6,
+      "recalcStyleDuration": 0.00911,
+      "whitespaceAmount": null
+    },
+    {
+      "process": {
+        "average": null,
+        "snapshots": []
+      },
+      "fps": [],
+      "memory": 0,
+      "cpu": 0,
+      "renders": 0,
+      "duration": -42.6999999997206,
+      "frames": 1,
+      "layoutCount": 8,
+      "layoutDuration": 0.030157,
+      "nodes": 375,
+      "recalcStyleCount": 6,
+      "recalcStyleDuration": 0.005007,
+      "whitespaceAmount": null
+    },
+    {
+      "process": {
+        "average": null,
+        "snapshots": []
+      },
+      "fps": [],
+      "memory": 0,
+      "cpu": 0,
+      "renders": 0,
+      "duration": -25.100000000093132,
+      "frames": 1,
+      "layoutCount": 8,
+      "layoutDuration": 0.031917,
+      "nodes": 375,
+      "recalcStyleCount": 6,
+      "recalcStyleDuration": 0.009331,
+      "whitespaceAmount": null
+    }
+  ]
+}

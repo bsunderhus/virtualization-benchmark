@@ -4,6 +4,7 @@ import {
   PopoverTrigger,
   PopoverSurface,
   Button,
+  makeStyles,
 } from "@fluentui/react-components";
 import React from "react";
 import { Mode, useConfiguration } from "../utils/configuration";
@@ -42,9 +43,18 @@ export const LightRow = React.forwardRef<HTMLDivElement, RowProps>(
   }
 );
 
+const usePlaceholderStyles = makeStyles({
+  placeholder: {
+    lineHeight: "32px",
+    height: "32px",
+    backgroundColor: "grey",
+  },
+});
+
 export const PlaceholderRow = React.forwardRef<HTMLDivElement, RowProps>(
   (props, ref) => {
-    return <div {...props} ref={ref} className="placeholder" />;
+    const styles = usePlaceholderStyles();
+    return <div {...props} ref={ref} className={styles.placeholder} />;
   }
 );
 

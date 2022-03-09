@@ -1,11 +1,21 @@
-import "../index.css";
 import { Route, Routes } from "react-router-dom";
-import { FluentProvider, webLightTheme } from "@fluentui/react-components";
+import {
+  FluentProvider,
+  webLightTheme,
+  makeStaticStyles,
+} from "@fluentui/react-components";
 import { Home } from "./Home";
 import { ConfigurationProvider } from "../utils/configuration";
 import { scenarios } from "../utils/scenarios";
 
+const useStaticStyles = makeStaticStyles({
+  body: {
+    margin: 0,
+  },
+});
+
 export function App() {
+  useStaticStyles();
   return (
     <ConfigurationProvider>
       <FluentProvider id="fluentui-provider" theme={webLightTheme}>
