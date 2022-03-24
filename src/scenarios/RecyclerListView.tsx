@@ -4,7 +4,8 @@ import {
   DataProvider,
   LayoutProvider,
 } from "recyclerlistview/web";
-import { Row, ROW_HEIGHT } from "../components/Row";
+import { Row } from "../components/Row";
+import { ROW_HEIGHT } from "../utils/constants";
 import { useArray } from "../utils/useArray";
 
 const layoutProvider = new LayoutProvider(

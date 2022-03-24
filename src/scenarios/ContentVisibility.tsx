@@ -1,6 +1,7 @@
 import { makeStyles } from "@fluentui/react-components";
 import React from "react";
 import { Row } from "../components/Row";
+import { ROW_HEIGHT } from "../utils/constants";
 
 import { useArray } from "../utils/useArray";
 
@@ -8,12 +9,13 @@ const useStyles = makeStyles({
   "content-visibility-content": {
     contain: "strict",
     height: "100vh",
-    overflow: "auto",
+    overflowX: "auto",
+    overflowY: "auto",
   },
   "content-visibility-item": {
-    height: "32px",
+    height: `${ROW_HEIGHT}px`,
     contentVisibility: "auto",
-    containIntrinsicSize: "0 32px",
+    containIntrinsicSize: `0 ${ROW_HEIGHT}px`,
   },
 });
 

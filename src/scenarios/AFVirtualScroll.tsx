@@ -1,6 +1,7 @@
 import { VerticalList, useVirtual } from "af-virtual-scroll";
 import React from "react";
-import { Row, ROW_HEIGHT } from "../components/Row";
+import { Row } from "../components/Row";
+import { ROW_HEIGHT } from "../utils/constants";
 import { useArray } from "../utils/useArray";
 
 const renderRow = (index: number) => <Row key={index} index={index} />;

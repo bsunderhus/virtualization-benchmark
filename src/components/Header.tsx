@@ -1,15 +1,16 @@
-import React, { ChangeEvent } from "react";
+import React from "react";
 import { Link } from "./Link";
 import { Mode, useConfiguration } from "../utils/configuration";
 import { scenarios } from "../utils/scenarios";
-import { makeStyles } from "@fluentui/react-components";
+import { makeStyles, shorthands } from "@fluentui/react-components";
 
 const useStyles = makeStyles({
   header: {
     display: "flex",
     flexDirection: "column",
-    gap: "20px",
-    padding: "20px",
+    rowGap: "20px",
+    columnGap: "20px",
+    ...shorthands.padding("20px"),
   },
 });
 
@@ -68,11 +69,11 @@ export const Header = React.memo(() => {
             onChange={handleSelectChange}
             value={configuration.mode}
           >
-            <option value={Mode.FULL}>{Mode.FULL.toUpperCase()}</option>
-            <option value={Mode.LIGHT}>{Mode.LIGHT.toUpperCase()}</option>
-            <option value={Mode.PLACEHOLDER}>
-              {Mode.PLACEHOLDER.toUpperCase()}
-            </option>
+            {Object.values(Mode).map((value, index) => (
+              <option key={index} value={value}>
+                {value.toUpperCase()}
+              </option>
+            ))}
           </select>
         </div>
       </aside>

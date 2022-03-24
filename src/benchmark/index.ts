@@ -110,10 +110,10 @@ export async function generateSamples({
     const duration = await page.evaluate(
       () => window.__lastRender! - window.__start!
     );
+    const { pid, memory, cpu } = await processMemory(processes, PROCESS_NAME);
     const metrics = await page.metrics();
     const processMetrics = await getProcessMetrics();
     await page.close();
-    const { pid, memory, cpu } = await processMemory(processes, PROCESS_NAME);
     processes[pid] = true;
 
     samples.push({

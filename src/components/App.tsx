@@ -5,7 +5,7 @@ import {
   makeStaticStyles,
 } from "@fluentui/react-components";
 import { Home } from "./Home";
-import { ConfigurationProvider } from "../utils/configuration";
+import { ConfigurationProvider, Mode } from "../utils/configuration";
 import { scenarios } from "../utils/scenarios";
 
 const useStaticStyles = makeStaticStyles({
@@ -17,7 +17,7 @@ const useStaticStyles = makeStaticStyles({
 export function App() {
   useStaticStyles();
   return (
-    <ConfigurationProvider>
+    <ConfigurationProvider defaultMode={Mode.CHAT_LIST_ITEM}>
       <FluentProvider id="fluentui-provider" theme={webLightTheme}>
         <Routes>
           <Route path="/" element={<Home />} />

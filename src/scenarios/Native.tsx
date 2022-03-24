@@ -1,12 +1,12 @@
-import { makeStyles } from "@fluentui/react-components";
+import { makeStyles, shorthands } from "@fluentui/react-components";
 import React from "react";
-import { Row, ROW_HEIGHT } from "../components/Row";
+import { Row } from "../components/Row";
 import { useArray } from "../utils/useArray";
 
 const useStyles = makeStyles({
   content: {
     height: "100vh",
-    overflow: "auto",
+    ...shorthands.overflow("auto"),
   },
 });
 

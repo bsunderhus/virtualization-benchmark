@@ -1,6 +1,7 @@
 import React from "react";
 import { FixedSizeList, ListChildComponentProps } from "react-window";
-import { Row, RowProps, ROW_HEIGHT } from "../components/Row";
+import { Row, RowProps } from "../components/Row";
+import { ROW_HEIGHT, ROW_WIDTH } from "../utils/constants";
 import { useArray } from "../utils/useArray";
 
 const renderRow = ({ index, style }: ListChildComponentProps<RowProps>) => (
@@ -12,7 +13,7 @@ export const ReactWindow = React.memo(() => {
   return (
     <FixedSizeList<RowProps>
       height={window.innerHeight}
-      width={window.innerWidth}
+      width={ROW_WIDTH}
       itemCount={indexArray.length}
       itemSize={ROW_HEIGHT}
       overscanCount={3}

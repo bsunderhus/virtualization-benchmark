@@ -2,11 +2,11 @@ import * as FluentUI from "@fluentui/react-components";
 import React from "react";
 import * as Router from "react-router-dom";
 
-type LinkProps = FluentUI.LinkCommons & Router.LinkProps;
+type LinkProps = FluentUI.LinkProps & Router.LinkProps;
 
 export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
   (props, ref) => {
-    const linkState = FluentUI.useLink(props, ref);
+    const linkState = FluentUI.useLink_unstable(props, ref);
     linkState.components = {
       root: Router.Link as unknown as "a",
     };
@@ -17,7 +17,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       replace: props.replace,
       state: props.state,
     } as LinkProps;
-    FluentUI.useLinkStyles(linkState);
-    return FluentUI.renderLink(linkState);
+    FluentUI.useLinkStyles_unstable(linkState);
+    return FluentUI.renderLink_unstable(linkState);
   }
 );

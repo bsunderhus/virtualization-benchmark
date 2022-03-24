@@ -1,6 +1,7 @@
 import React from "react";
 
 export enum Mode {
+  CHAT_LIST_ITEM = "chat-list-item",
   FULL = "full",
   LIGHT = "light",
   PLACEHOLDER = "placeholder",

@@ -49,8 +49,8 @@ export async function runPuppeteerBenchmark() {
       setupTest: async (page: puppeteer.Page) => {
         await page.mouse.move(200, 200);
         await scrollOverTime(page, {
-          duration: 8000,
-          deltaY: 100,
+          duration: 2000,
+          deltaY: 500,
         });
       },
     });

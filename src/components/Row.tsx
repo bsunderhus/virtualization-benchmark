@@ -6,8 +6,10 @@ import {
   Button,
   makeStyles,
 } from "@fluentui/react-components";
-import React from "react";
+import React, { Profiler } from "react";
 import { Mode, useConfiguration } from "../utils/configuration";
+import { ROW_HEIGHT } from "../utils/constants";
+import { ChatListItem } from "./ChatListItem";
 
 export interface RowProps extends React.HTMLAttributes<HTMLElement> {
   index: number;
@@ -31,6 +33,8 @@ export const FullRow = React.forwardRef<HTMLDivElement, RowProps>(
   }
 );
 
+FullRow.displayName = "FullRow";
+
 export const LightRow = React.forwardRef<HTMLDivElement, RowProps>(
   ({ index, ...rest }, ref) => {
     return (
@@ -43,10 +47,12 @@ export const LightRow = React.forwardRef<HTMLDivElement, RowProps>(
   }
 );
 
+LightRow.displayName = "LightRow";
+
 const usePlaceholderStyles = makeStyles({
   placeholder: {
-    lineHeight: "32px",
-    height: "32px",
+    lineHeight: `${ROW_HEIGHT}px`,
+    height: `${ROW_HEIGHT}px`,
     backgroundColor: "grey",
   },
 });
@@ -58,7 +64,9 @@ export const PlaceholderRow = React.forwardRef<HTMLDivElement, RowProps>(
   }
 );
 
-export const Row = React.forwardRef<HTMLDivElement, RowProps>((props, ref) => {
+PlaceholderRow.displayName = "PlaceholderRow";
+
+const Row = React.forwardRef<HTMLDivElement, RowProps>((props, ref) => {
   setRenders();
   const [configuration] = useConfiguration();
   switch (configuration.mode) {
@@ -68,10 +76,30 @@ export const Row = React.forwardRef<HTMLDivElement, RowProps>((props, ref) => {
       return <LightRow ref={ref} {...props} />;
     case Mode.PLACEHOLDER:
       return <PlaceholderRow ref={ref} {...props} />;
+    case Mode.CHAT_LIST_ITEM:
+      return <ChatListItem ref={ref} {...props} />;
   }
 });
 
-export const ROW_HEIGHT = 32;
+Row.displayName = "Row";
+
+const RowWithProfiler = React.forwardRef<HTMLDivElement, RowProps>(
+  (props, ref) => {
+    const row = <Row {...props} ref={ref} />;
+    if (import.meta.env.DEV) {
+      return (
+        <Profiler id="Row" onRender={handleProfiler}>
+          {row}
+        </Profiler>
+      );
+    }
+    return row;
+  }
+);
+
+RowWithProfiler.displayName = "RowWithProfiler";
+
+export { RowWithProfiler as Row };
 
 function setRenders() {
   if (!window.__renders) {
@@ -80,3 +108,17 @@ function setRenders() {
   ++window.__renders;
   window.__lastRender = window.performance.now();
 }
+
+(window as any).__durations = [];
+const handleProfiler: React.ProfilerOnRenderCallback = (
+  id,
+  phase,
+  actualDuration,
+  baseDuration,
+  startTime,
+  commitTime
+) => {
+  if (phase === "mount") {
+    (window as any).__durations.push(actualDuration);
+  }
+};

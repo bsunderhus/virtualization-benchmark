@@ -1,6 +1,7 @@
 import React from "react";
 import { useVirtual } from "react-virtual";
-import { Row, ROW_HEIGHT } from "../components/Row";
+import { Row } from "../components/Row";
+import { ROW_HEIGHT, ROW_WIDTH } from "../utils/constants";
 import { useArray } from "../utils/useArray";
 
 export const ReactVirtual = React.memo(() => {
@@ -26,7 +27,7 @@ export const ReactVirtual = React.memo(() => {
         className="ListInner"
         style={{
           height: `${rowVirtualizer.totalSize}px`,
-          width: "100%",
+          width: `${ROW_WIDTH}px`,
           position: "relative",
         }}
       >
