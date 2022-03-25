@@ -6,7 +6,8 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "benchmark": "node --experimental-specifier-resolution=node --loader ts-node/esm scripts/benchmark.ts"
+    "benchmark": "node --experimental-specifier-resolution=node --loader ts-node/esm scripts/benchmark.ts",
+    "print-results": "node --experimental-specifier-resolution=node --loader ts-node/esm scripts/print-results.ts"
   },
   "type": "module",
   "dependencies": {
