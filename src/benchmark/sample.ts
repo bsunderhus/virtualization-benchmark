@@ -4,6 +4,7 @@ import {
   calculateMedian,
   calculateStandardDeviation,
 } from "./math";
+import Table from "cli-table3";
 
 export interface Sample {
   fps: number[];
@@ -23,23 +24,23 @@ export interface Sample {
 
 export interface SampleMetrics {
   fps: {
-    min: Mean;
-    max: Mean;
-    median: Mean;
-    mean: Mean;
+    min: number;
+    max: number;
+    median: number;
+    mean: number;
   };
-  memory: Mean;
-  cpu: Mean;
-  renders: Mean;
-  duration: Mean;
-  frames: Mean;
-  nodes: Mean;
-  layoutCount: Mean;
-  layoutDuration: Mean;
-  recalcStyleCount: Mean;
-  recalcStyleDuration: Mean;
-  process: Mean;
-  whitespaceAmount: Mean;
+  memory: number;
+  cpu: number;
+  renders: number;
+  duration: number;
+  frames: number;
+  nodes: number;
+  layoutCount: number;
+  layoutDuration: number;
+  recalcStyleCount: number;
+  recalcStyleDuration: number;
+  process: number;
+  whitespaceAmount: number;
 }
 
 export interface Mean {
@@ -50,7 +51,7 @@ export interface Mean {
 const formatter = new Intl.NumberFormat("en");
 const format = formatter.format.bind(formatter);
 
-export function valuesToMetrics(numbers: number[]) {
+export function valuesToMetrics(numbers: number[]): Mean {
   return {
     mean: calculateMean(numbers),
     standardDeviation: calculateStandardDeviation(numbers),
@@ -60,35 +61,35 @@ export function valuesToMetrics(numbers: number[]) {
 export function samplesToSampleMetrics(samples: Sample[]): SampleMetrics {
   return {
     fps: {
-      min: valuesToMetrics(samples.map((sample) => Math.min(...sample.fps))),
-      max: valuesToMetrics(samples.map((sample) => Math.max(...sample.fps))),
-      median: valuesToMetrics(
+      min: calculateMean(samples.map((sample) => Math.min(...sample.fps))),
+      max: calculateMean(samples.map((sample) => Math.max(...sample.fps))),
+      median: calculateMean(
         samples.map((sample) => calculateMedian(sample.fps))
       ),
-      mean: valuesToMetrics(samples.map((sample) => calculateMean(sample.fps))),
+      mean: calculateMean(samples.map((sample) => calculateMean(sample.fps))),
     },
-    memory: valuesToMetrics(samples.map((sample) => sample.memory)),
-    cpu: valuesToMetrics(samples.map((sample) => sample.cpu)),
-    renders: valuesToMetrics(samples.map((sample) => sample.renders)),
-    duration: valuesToMetrics(samples.map((sample) => sample.duration)),
-    whitespaceAmount: valuesToMetrics(
+    memory: calculateMean(samples.map((sample) => sample.memory)),
+    cpu: calculateMean(samples.map((sample) => sample.cpu)),
+    renders: calculateMean(samples.map((sample) => sample.renders)),
+    duration: calculateMean(samples.map((sample) => sample.duration)),
+    whitespaceAmount: calculateMean(
       samples.map((sample) => sample.whitespaceAmount)
     ),
 
-    frames: valuesToMetrics(samples.map((sample) => sample.frames)),
-    nodes: valuesToMetrics(samples.map((sample) => sample.nodes)),
-    layoutCount: valuesToMetrics(samples.map((sample) => sample.layoutCount)),
-    layoutDuration: valuesToMetrics(
+    frames: calculateMean(samples.map((sample) => sample.frames)),
+    nodes: calculateMean(samples.map((sample) => sample.nodes)),
+    layoutCount: calculateMean(samples.map((sample) => sample.layoutCount)),
+    layoutDuration: calculateMean(
       samples.map((sample) => sample.layoutDuration)
     ),
-    recalcStyleCount: valuesToMetrics(
+    recalcStyleCount: calculateMean(
       samples.map((sample) => sample.recalcStyleCount)
     ),
-    recalcStyleDuration: valuesToMetrics(
+    recalcStyleDuration: calculateMean(
       samples.map((sample) => sample.recalcStyleDuration)
     ),
 
-    process: valuesToMetrics(samples.map((sample) => sample.process.average)),
+    process: calculateMean(samples.map((sample) => sample.process.average)),
   };
 }
 
@@ -109,37 +110,21 @@ export function printSampleMetrics({
 }: SampleMetrics): void {
   console.log(`
     FPS: 
-      Min: ${format(fps.min.mean)} (σ = ${format(fps.min.standardDeviation)})
-      Max: ${format(fps.max.mean)} (σ = ${format(fps.max.standardDeviation)})
-      Median: ${format(fps.median.mean)} (σ = ${format(
-    fps.median.standardDeviation
-  )})
-      Mean: ${format(fps.mean.mean)} (σ = ${format(fps.mean.standardDeviation)})
-    Renders: ${format(renders.mean)} (σ = ${format(renders.standardDeviation)})
-    Duration: ${format(duration.mean)} (σ = ${format(
-    duration.standardDeviation
-  )})
-    Memory: ${format(memory.mean)} (σ = ${format(memory.standardDeviation)})
-    CPU: ${format(cpu.mean)} (σ = ${format(cpu.standardDeviation)})
-    CPU percentage usage: ${format(process.mean)} (σ = ${format(
-    process.standardDeviation
-  )})
-    Frames: ${format(frames.mean)} (σ = ${format(frames.standardDeviation)})
-    Nodes: ${format(nodes.mean)} (σ = ${format(nodes.standardDeviation)})
-    LayoutCount: ${format(layoutCount.mean)} (σ = ${format(
-    layoutCount.standardDeviation
-  )})
-    LayoutDuration: ${format(layoutDuration.mean)} (σ = ${format(
-    layoutDuration.standardDeviation
-  )})
-    RecalcStyleCount: ${format(recalcStyleCount.mean)} (σ = ${format(
-    recalcStyleCount.standardDeviation
-  )})
-    RecalcStyleDuration: ${format(recalcStyleDuration.mean)} (σ = ${format(
-    recalcStyleDuration.standardDeviation
-  )})
-    WhitespaceAmount: ${format(whitespaceAmount.mean)} (σ = ${format(
-    whitespaceAmount.standardDeviation
-  )})
+      Min: ${fps.min} (σ = ${fps.min})
+      Max: ${fps.max} (σ = ${fps.max})
+      Median: ${fps.median} (σ = ${fps.median})
+      Mean: ${fps} (σ = ${fps})
+    Renders: ${renders} (σ = ${renders})
+    Duration: ${duration} (σ = ${duration})
+    Memory: ${memory} (σ = ${memory})
+    CPU: ${cpu} (σ = ${cpu})
+    CPU percentage usage: ${process} (σ = ${process})
+    Frames: ${frames} (σ = ${frames})
+    Nodes: ${nodes} (σ = ${nodes})
+    LayoutCount: ${layoutCount} (σ = ${layoutCount})
+    LayoutDuration: ${layoutDuration} (σ = ${layoutDuration})
+    RecalcStyleCount: ${recalcStyleCount} (σ = ${recalcStyleCount})
+    RecalcStyleDuration: ${recalcStyleDuration} (σ = ${recalcStyleDuration})
+    WhitespaceAmount: ${whitespaceAmount} (σ = ${whitespaceAmount})
   `);
 }

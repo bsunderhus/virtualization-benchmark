@@ -1,7 +1,6 @@
 import puppeteer from "puppeteer";
 
 import { processMap, processMemory } from "./memory";
-import { delay } from "../utils/delay";
 import { calculateMedian } from "./math";
 import { Sample } from "./sample";
 import { Mode } from "../utils/configuration";
@@ -16,7 +15,7 @@ const PROCESS_NAME = "type=renderer";
 
 export interface FPSMeasureOptions {
   browser: puppeteer.Browser;
-  setupTest: (page: puppeteer.Page) => Promise<void>;
+  interact: (page: puppeteer.Page) => Promise<void>;
   url: string;
   mode: Mode;
 }
@@ -25,7 +24,7 @@ export interface FPSMeasureOptions {
 // https://github.com/Janpot/mui-plus/blob/master/scripts/benchmark.ts
 export async function generateSamples({
   browser,
-  setupTest,
+  interact,
   url,
   mode,
 }: FPSMeasureOptions) {
@@ -35,18 +34,15 @@ export async function generateSamples({
   const processes = await processMap(PROCESS_NAME);
   for (let i = 0; i < 4; i += 1) {
     const page = await browser.newPage();
+    await page.goto(url);
+    await page.bringToFront();
     const devtoolsProtocolClient = await page.target().createCDPSession();
-    await devtoolsProtocolClient.send("Overlay.setShowFPSCounter", {
-      show: true,
-    });
     const imageFrames: FrameObject[] = [];
     const puppeteerScreenCastFrames = new PuppeteerScreenCastFrames();
     await puppeteerScreenCastFrames.init(devtoolsProtocolClient, (frame) => {
       imageFrames.push(frame);
     });
-    await page.goto(url);
-    await delay(1000);
-    page.evaluate((mode) => {
+    await page.evaluate((mode) => {
       window.__setMode(mode);
     }, mode);
 
@@ -54,11 +50,10 @@ export async function generateSamples({
       devtoolsProtocolClient,
       300
     );
-    page.evaluate(() => {
+    await puppeteerScreenCastFrames.start({ maxHeight: 600, maxWidth: 800 });
+    await page.evaluate(() => {
       window.__fps = [];
-      window.__renders = 0;
-      window.__start = window.performance.now();
-      let lastFrameTime: number;
+      let lastFrameTime: number | undefined;
       const loop = (frameTime: number) => {
         if (typeof lastFrameTime === "number") {
           const fps = 1 / ((window.performance.now() - lastFrameTime) / 1000);
@@ -69,22 +64,19 @@ export async function generateSamples({
       };
       window.requestAnimationFrame(loop);
     });
-
-    await puppeteerScreenCastFrames.start({ maxHeight: 600, maxWidth: 800 });
-    await setupTest(page);
-    await puppeteerScreenCastFrames.stop();
-
+    await interact(page);
     const fps = await page.evaluate(() => window.__fps);
+    await puppeteerScreenCastFrames.stop();
+    const processMetrics = await getProcessMetrics();
+    const { pid, memory, cpu } = await processMemory(processes, PROCESS_NAME);
+    processes[pid] = true;
+
+    const metrics = await page.metrics();
     const renders = await page.evaluate(() => window.__renders)!;
     const duration = await page.evaluate(
       () => window.__lastRender! - window.__start!
     );
-    const { pid, memory, cpu } = await processMemory(processes, PROCESS_NAME);
-    const metrics = await page.metrics();
-    const processMetrics = await getProcessMetrics();
     await page.close();
-    processes[pid] = true;
-
     samples.push({
       process: processMetrics,
       fps: fps ?? [],

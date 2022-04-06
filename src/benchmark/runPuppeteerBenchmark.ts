@@ -8,6 +8,7 @@ import scenarios from "../../scenarios.json";
 import { printSampleMetrics, Sample, samplesToSampleMetrics } from "./sample";
 import { generateSamples } from "./generateSamples";
 import { scrollOverTime } from "./scrollOverTime";
+import Table from "cli-table3";
 
 type Scenario = typeof scenarios[number];
 interface PuppeteerBenchmarkResult {
@@ -15,6 +16,10 @@ interface PuppeteerBenchmarkResult {
   samples: Sample[];
   images: FrameObject[];
 }
+export type PuppeteerBenchmarkResultWithoutImage = Pick<
+  PuppeteerBenchmarkResult,
+  "scenario" | "samples"
+>;
 
 export interface RunPuppeteerBenchmarkOptions {
   baseURL: string;
@@ -41,18 +46,25 @@ export async function runPuppeteerBenchmark(
       "--disable-sync",
       "--disable-extensions",
       "--disable-default-apps",
+
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-accelerated-2d-canvas",
+      "--no-zygote",
     ],
     headless: false,
     devtools: true,
   });
 
-  const result = await scenarios.reduce(async (acc, scenario) => {
-    const previous = await acc;
+  const result: PuppeteerBenchmarkResult[] = [];
+
+  for (const scenario of scenarios) {
     const [samples, images] = await generateSamples({
       browser,
       mode: options.mode,
       url: `${options.baseURL}/${scenario.path}`,
-      setupTest: async (page: puppeteer.Page) => {
+      interact: async (page: puppeteer.Page) => {
         await page.mouse.move(200, 200);
         await scrollOverTime(page, {
           duration: options.duration,
@@ -60,9 +72,8 @@ export async function runPuppeteerBenchmark(
         });
       },
     });
-    return [...previous, { scenario, samples, images }];
-  }, Promise.resolve<PuppeteerBenchmarkResult[]>([]));
-
+    result.push({ scenario, samples, images });
+  }
   await browser.close();
   return result;
 }
@@ -84,13 +95,65 @@ export async function savePuppeteerBenchmarkFrames(
   }
 }
 
-export async function printPuppeteerBenchmarkResults(
+export function printPuppeteerBenchmarkResults(
   results: Pick<PuppeteerBenchmarkResult, "scenario" | "samples">[]
 ) {
-  for (const { scenario, samples } of results) {
-    console.log(`${scenario.name}:`);
-    printSampleMetrics(samplesToSampleMetrics(samples));
-  }
+  const table = new Table({
+    head: ["", ...results.map((result) => result.scenario.name)],
+  });
+
+  const metrics = results.map((result) =>
+    samplesToSampleMetrics(result.samples)
+  );
+
+  table.push(
+    ["FPS"],
+    {
+      Max: metrics.map(({ fps }) => fps.max.toFixed(2)),
+    },
+    {
+      Min: metrics.map(({ fps }) => fps.min.toFixed(2)),
+    },
+    {
+      Media: metrics.map(({ fps }) => fps.median.toFixed(2)),
+    },
+    {
+      Mean: metrics.map(({ fps }) => fps.mean.toFixed(2)),
+    },
+    [],
+    { Renders: metrics.map(({ renders }) => Math.round(renders)) },
+    { Duration: metrics.map(({ duration }) => Math.round(duration)) },
+    [],
+    { Memory: metrics.map(({ memory }) => memory) },
+    { CPU: metrics.map(({ cpu }) => cpu.toFixed(2)) },
+    { "CPU % usage": metrics.map(({ process }) => process.toFixed(2)) },
+    [],
+    { Frames: metrics.map(({ frames }) => Math.round(frames)) },
+    { Nodes: metrics.map(({ nodes }) => Math.round(nodes)) },
+    { LayoutCount: metrics.map(({ layoutCount }) => Math.round(layoutCount)) },
+    {
+      LayoutDuration: metrics.map(({ layoutDuration }) =>
+        Math.round(layoutDuration)
+      ),
+    },
+    {
+      RecalcStyleCount: metrics.map(({ recalcStyleCount }) =>
+        Math.round(recalcStyleCount)
+      ),
+    },
+    {
+      RecalcStyleDuration: metrics.map(({ recalcStyleDuration }) =>
+        Math.round(recalcStyleDuration)
+      ),
+    },
+    [],
+    {
+      WhitespaceAmount: metrics.map(({ whitespaceAmount }) =>
+        Math.round(whitespaceAmount)
+      ),
+    }
+  );
+  console.log(table.toString());
 }
 
 export async function loadPuppeteerBenchmarkResults(fileName: string) {

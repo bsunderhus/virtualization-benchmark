@@ -1,26 +1,14 @@
 [
   {
     "src": "/src/scenarios/Native.tsx",
-    "name": "Native (no virtualization)",
+    "name": "Native",
     "path": "native"
   },
   {
     "src": "/src/scenarios/ContentVisibility.tsx",
-    "name": "content-visibility (no virtualization)",
+    "name": "content-visibility",
     "path": "content-visibility",
     "external": "https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility"
-  },
-  {
-    "src": "/src/scenarios/AFVirtualScroll.tsx",
-    "name": "af-virtual-scroll",
-    "path": "af-virtual-scroll",
-    "external": "https://github.com/nowaalex/af-virtual-scroll"
-  },
-  {
-    "src": "/src/scenarios/ReactRecycledScrolling.tsx",
-    "name": "react-recycled-scrolling",
-    "path": "react-recycled-scrolling",
-    "external": "https://github.com/sarons/react-recycled-scrolling"
   },
   {
     "src": "/src/scenarios/ReactVirtual.tsx",

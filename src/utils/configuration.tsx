@@ -31,7 +31,11 @@ export const ConfigurationProvider = React.memo<ConfigurationProviderProps>(
     });
     const [, setContext] = context;
 
-    window.__setMode = (mode) => setContext((curr) => ({ ...curr, mode }));
+    window.__setMode = (mode) => {
+      window.__start = window.performance.now();
+      window.__renders = 0;
+      setContext((curr) => ({ ...curr, mode }));
+    };
     return (
       <configurationContext.Provider value={context}>
         {children}

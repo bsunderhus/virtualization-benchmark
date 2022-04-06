@@ -22,6 +22,7 @@ Based on mui virtualization benchmark:
 - `yarn`
 - `yarn benchmark` - runs benchmark
 - `yarn dev` - starts server, use http://localhost:3000
+- `yarn print-results $arg1` - prints benchmark result
 
 ## Results
 

@@ -10,11 +10,11 @@ import { Mode } from "../src/utils/configuration";
 
 const PORT = 5000;
 
-async function run(modes: Mode[]) {
+async function run(modes: Mode[], basePath: string) {
   const server = await preview({ preview: { port: PORT } });
   for (const mode of modes) {
     savePuppeteerBenchmarkResults(
-      `src/samples/${mode}.json`,
+      `${basePath}/${mode}.json`,
       await runPuppeteerBenchmark({
         baseURL: `http://localhost:${PORT}`,
         mode,
@@ -26,4 +26,8 @@ async function run(modes: Mode[]) {
   server.httpServer.close();
 }
 
-run([Mode.CHAT_LIST_ITEM, Mode.FULL]);
+const [basePath] = process.argv.slice(2);
+
+if (basePath) {
+  run([Mode.CHAT_LIST_ITEM, Mode.FULL, Mode.LIGHT], basePath);
+}

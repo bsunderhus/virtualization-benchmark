@@ -39,9 +39,8 @@ export const LightRow = React.forwardRef<HTMLDivElement, RowProps>(
   ({ index, ...rest }, ref) => {
     return (
       <div ref={ref} tabIndex={0} {...rest}>
-        <Avatar color="colorful" name="X Y" />{" "}
-        <Avatar color="colorful" name={`${index} A`} />{" "}
-        <Avatar color="colorful" name="X Y" /> Test user {index}
+        <Avatar color="colorful" name={`${index} UserName`} />{" "}
+        <span> Test user {index}</span>
       </div>
     );
   }
