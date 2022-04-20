@@ -4,25 +4,20 @@ import {
   calculateMedian,
   calculateStandardDeviation,
 } from "./math";
-import Table from "cli-table3";
+import puppeteer from "puppeteer";
 
-export interface Sample {
+export interface Sample extends puppeteer.Metrics {
   fps: number[];
   memory: number;
   cpu: number;
   renders: number;
   duration: number;
-  frames: number;
-  nodes: number;
-  layoutCount: number;
-  layoutDuration: number;
-  recalcStyleCount: number;
-  recalcStyleDuration: number;
+  firstRender: number;
   process: CPUStats;
   whitespaceAmount: number;
 }
 
-export interface SampleMetrics {
+export interface SamplesMeans {
   fps: {
     min: number;
     max: number;
@@ -31,6 +26,7 @@ export interface SampleMetrics {
   };
   memory: number;
   cpu: number;
+  firstRender: number;
   renders: number;
   duration: number;
   frames: number;
@@ -43,22 +39,7 @@ export interface SampleMetrics {
   whitespaceAmount: number;
 }
 
-export interface Mean {
-  mean: number;
-  standardDeviation: number;
-}
-
-const formatter = new Intl.NumberFormat("en");
-const format = formatter.format.bind(formatter);
-
-export function valuesToMetrics(numbers: number[]): Mean {
-  return {
-    mean: calculateMean(numbers),
-    standardDeviation: calculateStandardDeviation(numbers),
-  };
-}
-
-export function samplesToSampleMetrics(samples: Sample[]): SampleMetrics {
+export function samplesToMeans(samples: Sample[]): SamplesMeans {
   return {
     fps: {
       min: calculateMean(samples.map((sample) => Math.min(...sample.fps))),
@@ -68,6 +49,7 @@ export function samplesToSampleMetrics(samples: Sample[]): SampleMetrics {
       ),
       mean: calculateMean(samples.map((sample) => calculateMean(sample.fps))),
     },
+    firstRender: calculateMean(samples.map((sample) => sample.firstRender)),
     memory: calculateMean(samples.map((sample) => sample.memory)),
     cpu: calculateMean(samples.map((sample) => sample.cpu)),
     renders: calculateMean(samples.map((sample) => sample.renders)),
@@ -76,17 +58,35 @@ export function samplesToSampleMetrics(samples: Sample[]): SampleMetrics {
       samples.map((sample) => sample.whitespaceAmount)
     ),
 
-    frames: calculateMean(samples.map((sample) => sample.frames)),
-    nodes: calculateMean(samples.map((sample) => sample.nodes)),
-    layoutCount: calculateMean(samples.map((sample) => sample.layoutCount)),
+    frames: calculateMean(
+      samples
+        .map((sample) => sample.Frames)
+        .filter((value): value is number => Boolean(value))
+    ),
+    nodes: calculateMean(
+      samples
+        .map((sample) => sample.Nodes)
+        .filter((value): value is number => Boolean(value))
+    ),
+    layoutCount: calculateMean(
+      samples
+        .map((sample) => sample.LayoutCount)
+        .filter((value): value is number => Boolean(value))
+    ),
     layoutDuration: calculateMean(
-      samples.map((sample) => sample.layoutDuration)
+      samples
+        .map((sample) => sample.LayoutDuration)
+        .filter((value): value is number => Boolean(value))
     ),
     recalcStyleCount: calculateMean(
-      samples.map((sample) => sample.recalcStyleCount)
+      samples
+        .map((sample) => sample.RecalcStyleCount)
+        .filter((value): value is number => Boolean(value))
     ),
     recalcStyleDuration: calculateMean(
-      samples.map((sample) => sample.recalcStyleDuration)
+      samples
+        .map((sample) => sample.RecalcStyleDuration)
+        .filter((value): value is number => Boolean(value))
     ),
 
     process: calculateMean(samples.map((sample) => sample.process.average)),
@@ -107,7 +107,7 @@ export function printSampleMetrics({
   layoutCount,
   frames,
   duration,
-}: SampleMetrics): void {
+}: SamplesMeans): void {
   console.log(`
     FPS: 
       Min: ${fps.min} (σ = ${fps.min})

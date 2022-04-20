@@ -1,6 +1,7 @@
 import { makeStyles } from "@fluentui/react-components";
 import React from "react";
 import { Row } from "../components/Row";
+import { useSetFirstRender } from "../utils/configuration";
 import { ROW_HEIGHT } from "../utils/constants";
 
 import { useArray } from "../utils/useArray";
@@ -22,6 +23,7 @@ const useStyles = makeStyles({
 export const ContentVisibility = React.memo(() => {
   const styles = useStyles();
   const indexArray = useArray();
+  useSetFirstRender();
   return (
     <main className={styles["content-visibility-content"]}>
       {indexArray.map((index) => (

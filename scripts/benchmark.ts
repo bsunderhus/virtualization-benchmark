@@ -4,6 +4,7 @@ import {
   runPuppeteerBenchmark,
   savePuppeteerBenchmarkResults,
 } from "../src/benchmark";
+import fs from "fs/promises";
 
 import { preview } from "vite";
 import { Mode } from "../src/utils/configuration";
@@ -11,6 +12,7 @@ import { Mode } from "../src/utils/configuration";
 const PORT = 5000;
 
 async function run(modes: Mode[], basePath: string) {
+  await fs.mkdir(basePath, { recursive: true });
   const server = await preview({ preview: { port: PORT } });
   for (const mode of modes) {
     savePuppeteerBenchmarkResults(

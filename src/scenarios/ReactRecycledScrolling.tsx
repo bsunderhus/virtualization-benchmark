@@ -2,6 +2,7 @@ import { makeStaticStyles } from "@fluentui/react-components";
 import React from "react";
 import RecycledList from "react-recycled-scrolling";
 import { Row } from "../components/Row";
+import { useSetFirstRender } from "../utils/configuration";
 import { ROW_HEIGHT } from "../utils/constants";
 import { useArray } from "../utils/useArray";
 
@@ -18,6 +19,7 @@ const useStaticStyles = makeStaticStyles({
 export const ReactRecycledScrolling = React.memo(() => {
   useStaticStyles();
   const indexArray = useArray();
+  useSetFirstRender();
   return (
     <main>
       <RecycledList

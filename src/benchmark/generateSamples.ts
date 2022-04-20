@@ -65,31 +65,31 @@ export async function generateSamples({
       window.requestAnimationFrame(loop);
     });
     await interact(page);
-    const fps = await page.evaluate(() => window.__fps);
+    const { renders, fps, firstRender, start, lastRender } =
+      await page.evaluate(() => ({
+        fps: window.__fps ?? [],
+        firstRender: window.__firstRender!,
+        renders: window.__renders!,
+        lastRender: window.__lastRender!,
+        // duration: window.__lastRender! - window.__start!,
+        start: window.__start!,
+      }));
     await puppeteerScreenCastFrames.stop();
     const processMetrics = await getProcessMetrics();
     const { pid, memory, cpu } = await processMemory(processes, PROCESS_NAME);
     processes[pid] = true;
 
     const metrics = await page.metrics();
-    const renders = await page.evaluate(() => window.__renders)!;
-    const duration = await page.evaluate(
-      () => window.__lastRender! - window.__start!
-    );
     await page.close();
     samples.push({
+      ...metrics,
+      firstRender: firstRender!,
       process: processMetrics,
-      fps: fps ?? [],
+      fps: fps,
       memory: Number.parseInt(memory),
       cpu: Math.ceil(Number.parseFloat(cpu)),
       renders: renders!,
-      duration,
-      frames: metrics.Frames!,
-      layoutCount: metrics.LayoutCount!,
-      layoutDuration: metrics.LayoutDuration!,
-      nodes: metrics.Nodes!,
-      recalcStyleCount: metrics.RecalcStyleCount!,
-      recalcStyleDuration: metrics.RecalcStyleDuration!,
+      duration: 0,
       whitespaceAmount: calculateMedian(
         await Promise.all(
           imageFrames.map((frame) => base64ToWhitespaceAmount(frame.data))

@@ -49,3 +49,24 @@ export function useConfiguration() {
   if (!context) throw new Error("Context being used without Provider");
   return context;
 }
+
+export function useSetRowRenders() {
+  if (!window.__renders) {
+    window.__renders = 0;
+  }
+  window.__renders++;
+  // React.useEffect(() => {
+  //   window.__lastRender = window.performance.now();
+  // }, []);
+}
+
+export function useSetFirstRender() {
+  const start = React.useRef(NaN);
+  React.useEffect(() => {
+    window.__firstRender = window.performance.now() - start.current;
+  }, []);
+
+  if (isNaN(start.current)) {
+    start.current = window.performance.now();
+  }
+}

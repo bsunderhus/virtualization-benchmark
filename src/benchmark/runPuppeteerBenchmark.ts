@@ -5,13 +5,18 @@ import { Mode } from "../utils/configuration";
 import { mkdirIfNotExists } from "../utils/mkdirIfNotExists";
 import { FrameObject } from "../utils/PuppeteerScreenCastFrames";
 import scenarios from "../../scenarios.json";
-import { printSampleMetrics, Sample, samplesToSampleMetrics } from "./sample";
+import { Sample, SamplesMeans, samplesToMeans } from "./sample";
 import { generateSamples } from "./generateSamples";
 import { scrollOverTime } from "./scrollOverTime";
-import Table from "cli-table3";
+import Table, {
+  CrossTableRow,
+  HorizontalTableRow,
+  TableConstructorOptions,
+  VerticalTableRow,
+} from "cli-table3";
 
 type Scenario = typeof scenarios[number];
-interface PuppeteerBenchmarkResult {
+export interface PuppeteerBenchmarkResult {
   scenario: Scenario;
   samples: Sample[];
   images: FrameObject[];
@@ -95,42 +100,32 @@ export async function savePuppeteerBenchmarkFrames(
   }
 }
 
-export function printPuppeteerBenchmarkResults(
-  results: Pick<PuppeteerBenchmarkResult, "scenario" | "samples">[]
-) {
-  const table = new Table({
-    head: ["", ...results.map((result) => result.scenario.name)],
-  });
-
-  const metrics = results.map((result) =>
-    samplesToSampleMetrics(result.samples)
-  );
-
-  table.push(
-    ["FPS"],
+export function sampleMeansToRows(metrics: SamplesMeans[]) {
+  return [
     {
-      Max: metrics.map(({ fps }) => fps.max.toFixed(2)),
+      "FPS Max": metrics.map(({ fps }) => fps.max.toFixed(2)),
     },
     {
-      Min: metrics.map(({ fps }) => fps.min.toFixed(2)),
+      "FPS Min": metrics.map(({ fps }) => fps.min.toFixed(2)),
     },
     {
-      Media: metrics.map(({ fps }) => fps.median.toFixed(2)),
+      "FPS Median": metrics.map(({ fps }) => fps.median.toFixed(2)),
     },
     {
-      Mean: metrics.map(({ fps }) => fps.mean.toFixed(2)),
+      "FPS Mean": metrics.map(({ fps }) => fps.mean.toFixed(2)),
     },
-    [],
     { Renders: metrics.map(({ renders }) => Math.round(renders)) },
     { Duration: metrics.map(({ duration }) => Math.round(duration)) },
-    [],
+    {
+      FirstRender: metrics.map(({ firstRender }) => Math.round(firstRender)),
+    },
     { Memory: metrics.map(({ memory }) => memory) },
-    { CPU: metrics.map(({ cpu }) => cpu.toFixed(2)) },
-    { "CPU % usage": metrics.map(({ process }) => process.toFixed(2)) },
-    [],
+    { "CPU %": metrics.map(({ process }) => process.toFixed(2)) },
     { Frames: metrics.map(({ frames }) => Math.round(frames)) },
     { Nodes: metrics.map(({ nodes }) => Math.round(nodes)) },
-    { LayoutCount: metrics.map(({ layoutCount }) => Math.round(layoutCount)) },
+    {
+      LayoutCount: metrics.map(({ layoutCount }) => Math.round(layoutCount)),
+    },
     {
       LayoutDuration: metrics.map(({ layoutDuration }) =>
         Math.round(layoutDuration)
@@ -146,14 +141,47 @@ export function printPuppeteerBenchmarkResults(
         Math.round(recalcStyleDuration)
       ),
     },
-    [],
     {
-      WhitespaceAmount: metrics.map(({ whitespaceAmount }) =>
+      Whitespace: metrics.map(({ whitespaceAmount }) =>
         Math.round(whitespaceAmount)
       ),
-    }
+    },
+  ] as CrossTableRow[];
+}
+
+export function puppeteerBenchmarkResultsPerScenarioToTables(
+  results: Record<string, Record<Mode, Sample[]>>,
+  options?: TableConstructorOptions
+) {
+  return Object.fromEntries(
+    Object.entries(results).map(([scenarioName, resultPerMode]) => {
+      const table = new Table({
+        head: ["", ...Object.keys(resultPerMode)],
+        ...options,
+      });
+
+      const metrics = Object.values(resultPerMode).map((results) =>
+        samplesToMeans(results)
+      );
+      table.push(...sampleMeansToRows(metrics));
+
+      return [scenarioName, table] as const;
+    })
   );
-  console.log(table.toString());
+}
+
+export function puppeteerBenchmarkResultsToTable(
+  results: Pick<PuppeteerBenchmarkResult, "scenario" | "samples">[],
+  options?: TableConstructorOptions
+) {
+  const table = new Table({
+    head: ["", ...results.map((result) => result.scenario.name)],
+    ...options,
+  });
+
+  const metrics = results.map((result) => samplesToMeans(result.samples));
+  table.push(...sampleMeansToRows(metrics));
+  return table;
 }
 
 export async function loadPuppeteerBenchmarkResults(fileName: string) {

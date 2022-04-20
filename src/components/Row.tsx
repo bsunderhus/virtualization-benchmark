@@ -7,7 +7,11 @@ import {
   makeStyles,
 } from "@fluentui/react-components";
 import React, { Profiler } from "react";
-import { Mode, useConfiguration } from "../utils/configuration";
+import {
+  Mode,
+  useConfiguration,
+  useSetRowRenders,
+} from "../utils/configuration";
 import { ROW_HEIGHT } from "../utils/constants";
 import { ChatListItem } from "./ChatListItem";
 
@@ -66,7 +70,7 @@ export const PlaceholderRow = React.forwardRef<HTMLDivElement, RowProps>(
 PlaceholderRow.displayName = "PlaceholderRow";
 
 const Row = React.forwardRef<HTMLDivElement, RowProps>((props, ref) => {
-  setRenders();
+  useSetRowRenders();
   const [configuration] = useConfiguration();
   switch (configuration.mode) {
     case Mode.FULL:
@@ -99,14 +103,6 @@ const RowWithProfiler = React.forwardRef<HTMLDivElement, RowProps>(
 RowWithProfiler.displayName = "RowWithProfiler";
 
 export { RowWithProfiler as Row };
-
-function setRenders() {
-  if (!window.__renders) {
-    window.__renders = 0;
-  }
-  ++window.__renders;
-  window.__lastRender = window.performance.now();
-}
 
 (window as any).__durations = [];
 const handleProfiler: React.ProfilerOnRenderCallback = (

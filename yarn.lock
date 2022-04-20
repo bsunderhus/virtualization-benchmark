@@ -607,7 +607,7 @@
     "@griffel/react" "1.0.0"
     tslib "^2.1.0"
 
-"@fluentui/react-utilities@9.0.0-rc.5":
+"@fluentui/react-utilities@9.0.0-rc.5", "@fluentui/react-utilities@^9.0.0-rc.5":
   version "9.0.0-rc.5"
   resolved "https://registry.yarnpkg.com/@fluentui/react-utilities/-/react-utilities-9.0.0-rc.5.tgz#9587d44a0e2081bf59fd6264a6fc3f6e8d73df37"
   integrity sha512-bKiMS4b2080ONQgXjMcQjzCgLFtG+QBhCyXH9KhQgAy0RDozMYyQ50ChtJsIOIG05gKXK/sPsjjiC+vvlBornQ==

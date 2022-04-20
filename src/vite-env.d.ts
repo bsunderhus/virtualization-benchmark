@@ -12,6 +12,7 @@ interface Window {
   __renders?: number;
   __fps?: number[];
   __start?: number;
+  __firstRender?: number;
   __lastRender?: number;
   __setMode(mode?: any): void;
 }

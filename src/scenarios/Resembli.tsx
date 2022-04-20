@@ -4,6 +4,7 @@ import React from "react";
 import { useArray } from "../utils/useArray";
 import { Row } from "../components/Row";
 import { ROW_HEIGHT, ROW_WIDTH } from "../utils/constants";
+import { useSetFirstRender } from "../utils/configuration";
 
 const renderer: RenderItem<number> = ({ data, style }) => (
   <Row index={data} style={style}>
@@ -13,6 +14,7 @@ const renderer: RenderItem<number> = ({ data, style }) => (
 
 export const Resembli = React.memo(() => {
   const array = useArray();
+  useSetFirstRender();
   return (
     <div style={{ width: ROW_WIDTH, height: window.innerHeight }}>
       <List overscan={1} defaultSize={ROW_HEIGHT} data={array}>
