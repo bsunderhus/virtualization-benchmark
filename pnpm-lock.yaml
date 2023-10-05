@@ -6,14 +6,11 @@ settings:
 
 dependencies:
   '@fluentui/react-components':
-    specifier: ^9.0.0-rc.6
+    specifier: ^9.34.0
     version: 9.34.0(@types/react-dom@17.0.21)(@types/react@17.0.67)(react-dom@17.0.2)(react@17.0.2)(scheduler@0.20.2)
   '@fluentui/react-icons':
-    specifier: ^2.0.159-beta.10
+    specifier: ^2.0.218
     version: 2.0.218(react@17.0.2)
-  '@fluentui/react-utilities':
-    specifier: ^9.0.0-rc.5
-    version: 9.14.0(@types/react@17.0.67)(react@17.0.2)
   '@resembli/react-virtualized-window':
     specifier: ^0.5.0
     version: 0.5.0(react@17.0.2)

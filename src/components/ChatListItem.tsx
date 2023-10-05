@@ -139,7 +139,7 @@ export const ChatListItemAvatar = React.forwardRef<HTMLElement, RowProps>(
           className={styles.avatar}
           ref={ref}
           image={{
-            src: `https://avatars.dicebear.com/api/micah/${index}.svg`,
+            src: `https://api.dicebear.com/7.x/pixel-art/svg?seed=${index}`,
           }}
           name="User Name"
           badge={{
