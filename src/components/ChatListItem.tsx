@@ -29,9 +29,9 @@ const status: PresenceBadgeStatus[] = [
   "available",
   "away",
   "busy",
-  "doNotDisturb",
+  "do-not-disturb",
   "offline",
-  "outOfOffice",
+  "out-of-office",
 ];
 
 export interface RowProps extends React.HTMLAttributes<HTMLElement> {

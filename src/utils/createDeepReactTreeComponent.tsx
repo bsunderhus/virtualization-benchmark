@@ -2,8 +2,8 @@ import React from "react";
 
 export function createDeepReactTreeComponent(
   lvl: number = 0,
-  Container: React.ElementType<React.PropsWithChildren<{}>> = React.Fragment
-): React.ElementType<React.PropsWithChildren<{}>> {
+  Container: React.ExoticComponent<React.PropsWithChildren<{}>> = React.Fragment
+): React.ExoticComponent<React.PropsWithChildren<{}>> {
   const Component = React.memo((props) => (
     <Container>{props.children}</Container>
   ));

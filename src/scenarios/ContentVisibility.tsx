@@ -16,7 +16,8 @@ const useStyles = makeStyles({
   "content-visibility-item": {
     height: `${ROW_HEIGHT}px`,
     contentVisibility: "auto",
-    containIntrinsicSize: `0 ${ROW_HEIGHT}px`,
+    containIntrinsicHeight: `${ROW_HEIGHT}px`,
+    containIntrinsicWidth: `0px`,
   },
 });
 

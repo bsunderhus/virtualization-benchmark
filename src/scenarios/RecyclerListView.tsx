@@ -1,6 +1,7 @@
 import React from "react";
 import {
   RecyclerListView as RecyclerListViewWeb,
+  RecyclerListViewProps,
   DataProvider,
   LayoutProvider,
 } from "recyclerlistview/web";
@@ -8,6 +9,9 @@ import { Row } from "../components/Row";
 import { useSetFirstRender } from "../utils/configuration";
 import { ROW_HEIGHT } from "../utils/constants";
 import { useArray } from "../utils/useArray";
+
+const RecyclerListViewWebCompat =
+  RecyclerListViewWeb as unknown as React.FC<RecyclerListViewProps>;
 
 const layoutProvider = new LayoutProvider(
   () => 0,
@@ -28,7 +32,7 @@ export const RecyclerListView = React.memo(() => {
   useSetFirstRender();
   return (
     <main style={{ overflow: "hidden" }}>
-      <RecyclerListViewWeb
+      <RecyclerListViewWebCompat
         useWindowScroll={true}
         layoutProvider={layoutProvider}
         dataProvider={dataProvider.cloneWithRows(indexArray)}
