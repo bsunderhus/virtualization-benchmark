@@ -36,9 +36,9 @@ export const FluentVirtualizer = React.memo(() => {
         virtualizerLength={virtualizerLength}
         bufferItems={bufferItems}
         bufferSize={bufferSize}
-        itemSize={100}
+        itemSize={ROW_HEIGHT}
       >
-        {(index) => <Row key={index} index={index} />}
+        {(index) => <Row key={index} index={index} style={{height: ROW_HEIGHT}} />}
       </Virtualizer>
     </div>
   );
