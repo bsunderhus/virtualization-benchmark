@@ -11,6 +11,11 @@
     "external": "https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility"
   },
   {
+    "src": "/src/scenarios/FluentVirtualizer.tsx",
+    "name": "@fluentui/react-virtualizer",
+    "path": "fluentui__react-virtualizer"
+  },
+  {
     "src": "/src/scenarios/ReactVirtual.tsx",
     "name": "react-virtual",
     "path": "react-virtual",

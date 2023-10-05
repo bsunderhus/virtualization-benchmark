@@ -4,7 +4,7 @@ import fs from "fs/promises";
 import { Mode } from "../utils/configuration";
 import { mkdirIfNotExists } from "../utils/mkdirIfNotExists";
 import { FrameObject } from "../utils/PuppeteerScreenCastFrames";
-import scenarios from "../../scenarios.json";
+import scenarios from "../../scenarios.json" assert { type: "json" };
 import { Sample, SamplesMeans, samplesToMeans } from "./sample";
 import { generateSamples } from "./generateSamples";
 import { scrollOverTime } from "./scrollOverTime";
@@ -15,7 +15,7 @@ import Table, {
   VerticalTableRow,
 } from "cli-table3";
 
-type Scenario = typeof scenarios[number];
+type Scenario = (typeof scenarios)[number];
 export interface PuppeteerBenchmarkResult {
   scenario: Scenario;
   samples: Sample[];
