@@ -14,6 +14,9 @@ dependencies:
   '@resembli/react-virtualized-window':
     specifier: ^0.5.0
     version: 0.5.0(react@17.0.2)
+  '@tanstack/react-virtual':
+    specifier: ^3.2.0
+    version: 3.2.0(react-dom@17.0.2)(react@17.0.2)
   af-virtual-scroll:
     specifier: ^2.9.20
     version: 2.14.0(@babel/runtime@7.23.1)(prop-types@15.8.1)(react@17.0.2)
@@ -3217,6 +3220,21 @@ packages:
     resolution: {integrity: sha512-E4KcWTpoLHqwPHLxidpOqQbcrZVgi0rsmmZXUle1jXmJfuIf/UWpczUJ7MZZ5tlxytgJXyp0w4PGkkeLiuIdZw==}
     dependencies:
       tslib: 2.6.2
+    dev: false
+
+  /@tanstack/react-virtual@3.2.0(react-dom@17.0.2)(react@17.0.2):
+    resolution: {integrity: sha512-OEdMByf2hEfDa6XDbGlZN8qO6bTjlNKqjM3im9JG+u3mCL8jALy0T/67oDI001raUUPh1Bdmfn4ZvPOV5knpcg==}
+    peerDependencies:
+      react: ^16.8.0 || ^17.0.0 || ^18.0.0
+      react-dom: ^16.8.0 || ^17.0.0 || ^18.0.0
+    dependencies:
+      '@tanstack/virtual-core': 3.2.0
+      react: 17.0.2
+      react-dom: 17.0.2(react@17.0.2)
+    dev: false
+
+  /@tanstack/virtual-core@3.2.0:
+    resolution: {integrity: sha512-P5XgYoAw/vfW65byBbJQCw+cagdXDT/qH6wmABiLt4v4YBT2q2vqCOhihe+D1Nt325F/S/0Tkv6C5z0Lv+VBQQ==}
     dev: false
 
   /@tsconfig/node10@1.0.9:
