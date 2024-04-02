@@ -8,7 +8,7 @@ import {
 } from "../src/benchmark";
 import fs from "fs/promises";
 import { Mode } from "../src/utils/configuration";
-import scenarios from "../scenarios.json";
+import scenarios from "../scenarios.json" assert { type: "json" };
 import { Sample } from "../src/benchmark/sample";
 import { TableConstructorOptions } from "cli-table3";
 
