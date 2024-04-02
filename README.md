@@ -19,10 +19,10 @@ Based on mui virtualization benchmark:
 
 ## Running benchmark or site
 
-- `yarn`
-- `yarn benchmark` - runs benchmark
-- `yarn dev` - starts server, use http://localhost:3000
-- `yarn print-results $arg1` - prints benchmark result
+- `pnpm`
+- `pnpm build && mkdir results && pnpm benchmark ./results` - runs benchmark and store result in `results` directory
+- `pnpm print-results ./results` - prints benchmark result
+- `pnpm dev` - starts server, use http://localhost:3000
 
 ## Results
 
