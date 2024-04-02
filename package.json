@@ -26,6 +26,7 @@
     "react-recycled-scrolling": "^1.0.8",
     "react-router-dom": "6",
     "react-virtual": "^2.10.0",
+    "react-virtuoso": "^4.7.7",
     "react-window": "^1.8.6",
     "recharts": "^2.1.9",
     "recyclerlistview": "^3.0.5",

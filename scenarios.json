@@ -28,6 +28,12 @@
     "external": "https://github.com/bvaughn/react-window"
   },
   {
+    "src": "/src/scenarios/ReactVirtuoso.tsx",
+    "name": "react-virtuoso",
+    "path": "react-virtuoso",
+    "external": "https://github.com/petyosi/react-virtuoso"
+  },
+  {
     "src": "/src/scenarios/RecyclerListView.tsx",
     "name": "recylerlistview",
     "path": "recylerlistview",

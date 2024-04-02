@@ -16,6 +16,7 @@ Based on mui virtualization benchmark:
 - content-visibility (without virtualization)
 - [https://developer.mozilla.org/en-US/docs/Web/CSS/content-visibility](content-visibility)
 - (af-virtual-scroll)[https://github.com/nowaalex/af-virtual-scroll]
+- react-virtuoso
 
 ## Running benchmark or site
 
