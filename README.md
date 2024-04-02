@@ -21,7 +21,7 @@ Based on mui virtualization benchmark:
 
 ## Running benchmark or site
 
-- `pnpm`
+- `pnpm install`
 - `pnpm build && mkdir results && pnpm benchmark ./results` - runs benchmark and store result in `results` directory
 - `pnpm print-results ./results` - prints benchmark result
 - `pnpm dev` - starts server, use http://localhost:3000
