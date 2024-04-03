@@ -28,6 +28,12 @@
     "external": "https://github.com/bvaughn/react-window"
   },
   {
+    "src": "/src/scenarios/ReactVirtuoso.tsx",
+    "name": "react-virtuoso",
+    "path": "react-virtuoso",
+    "external": "https://github.com/petyosi/react-virtuoso"
+  },
+  {
     "src": "/src/scenarios/RecyclerListView.tsx",
     "name": "recylerlistview",
     "path": "recylerlistview",
@@ -38,5 +44,11 @@
     "name": "Resembli",
     "path": "resembli",
     "external": "https://www.resembli.com/docs/react-virtualized-window/list"
+  },
+  {
+    "src": "/src/scenarios/TanStackVirtual.tsx",
+    "name": "TanStackVirtual",
+    "path": "tanstack-virtual",
+    "external": "https://github.com/TanStack/virtual"
   }
 ]
