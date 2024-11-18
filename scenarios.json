@@ -50,5 +50,10 @@
     "name": "TanStackVirtual",
     "path": "tanstack-virtual",
     "external": "https://github.com/TanStack/virtual"
+  },
+  {
+    "src": "/src/scenarios/IntersectionObserver.tsx",
+    "name": "IntersectionObserver",
+    "path": "intersection-observer"
   }
 ]
